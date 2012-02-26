@@ -1,0 +1,6 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] t/debian-fix-paths
+
+set some required paths
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
