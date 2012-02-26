@@ -1,0 +1,115 @@
+From: Jiang Xin <jiangxin@ossxp.com>
+Subject: [PATCH] t/repo_name_mapping
+
+<patch description>
+
+Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
+
+---
+ src/gitolite.pm     |   21 +++++++++++++++++++++
+ src/gl-auth-command |    3 +++
+ src/gl-compile-conf |   15 ++++++++++++++-
+ 3 files changed, 38 insertions(+), 1 deletions(-)
+
+diff --git a/src/gitolite.pm b/src/gitolite.pm
+index 1f75a35..876e5ae 100644
+--- a/src/gitolite.pm
++++ b/src/gitolite.pm
+@@ -12,6 +12,7 @@ use Exporter 'import';
+     list_phy_repos
+     ln_sf
+     log_it
++    map_repo
+     new_repo
+     new_wild_repo
+     repo_rights
+@@ -77,6 +78,7 @@ use gitolite_rc;
+ 
+ our %repos;
+ our %groups;
++our %mapping;
+ our %git_configs;
+ our %split_conf;
+ our $data_version;
+@@ -581,6 +583,25 @@ sub expand_wild
+ }
+ 
+ # ----------------------------------------------------------------------------
++#       map repo from A to B
++# ----------------------------------------------------------------------------
++
++sub map_repo
++{
++    my ($GL_CONF_COMPILED, $repo) = @_;
++    die "parse $GL_CONF_COMPILED failed: " . ($! or $@) unless do $GL_CONF_COMPILED;
++
++    for my $m (sort keys %mapping) {
++        if ($repo =~ /^$m$/) {
++            $repo =~ s/$m/$mapping{$m}->()/e;
++            last
++        }
++    }
++
++    return $repo;
++}
++
++# ----------------------------------------------------------------------------
+ #       parse the compiled acl
+ # ----------------------------------------------------------------------------
+ 
+diff --git a/src/gl-auth-command b/src/gl-auth-command
+index 60f0e40..abdbc4a 100755
+--- a/src/gl-auth-command
++++ b/src/gl-auth-command
+@@ -132,6 +132,9 @@ unless ( $verb and ( $verb eq 'git-init' or $verb =~ $R_COMMANDS or $verb =~ $W_
+ die "$repo ends with a slash; I don't like that\n" if $repo =~ /\/$/;
+ die "$repo has two consecutive periods; I don't like that\n" if $repo =~ /\.\./;
+ 
++# map repo from A to B
++$repo = map_repo($GL_CONF_COMPILED, $repo);
++
+ # save the reponame; too many things need this
+ $ENV{GL_REPO}=$repo;
+ 
+diff --git a/src/gl-compile-conf b/src/gl-compile-conf
+index 9799841..a266924 100755
+--- a/src/gl-compile-conf
++++ b/src/gl-compile-conf
+@@ -34,6 +34,9 @@ open STDOUT, ">", "/dev/null" if (@ARGV and shift eq '-q');
+ # group is defined).
+ # our %groups = ();     # moved to gitolite.pm now
+ 
++# map repo from A to B
++our %mapping = ();
++
+ # %repos has two functions.
+ 
+ # $repos{repo}{R|W}{user} = 1 if user has R (or W) permissions for at least
+@@ -141,6 +144,13 @@ sub parse_conf_line
+         $groups{$1} = {} unless $groups{$1};
+         die "$ABRT bad group $1\n" unless $1 =~ $REPONAME_PATT;
+     }
++    # mapping repo from A to B.
++    # B should not start with double quote, or conflict with latter regex of gitweb description.
++    elsif ($line =~ /^map (.*\S)\s*=\s*([^"].*?)$/)
++    {
++        # store each mapping as hash.
++        $mapping{$1} = "sub { \"$2\" }";
++    }
+     # repo(s)
+     elsif ($line =~ /^repo (.*)/)
+     {
+@@ -480,7 +490,10 @@ sub write_compiled_conf
+     my $compiled_fh = wrap_open( ">", "$GL_CONF_COMPILED.new" );
+     my $data_version = $current_data_version;
+     print $compiled_fh Data::Dumper->Dump([$data_version], [qw(*data_version)]);
+-    my $dumped_data = Data::Dumper->Dump([\%repos], [qw(*repos)]);
++    my $dumped_data = Data::Dumper->Dump([\%mapping], [qw(*mapping)]);
++    $dumped_data =~ s/'(sub {.*})'/$1/g;
++    print $compiled_fh $dumped_data;
++    $dumped_data = Data::Dumper->Dump([\%repos], [qw(*repos)]);
+     $dumped_data .= Data::Dumper->Dump([\%git_configs], [qw(*git_configs)]) if %git_configs;
+     # the dump uses single quotes, but we convert any strings containing $creator
+     # and $gl_user to double quoted strings.  A bit sneaky, but not too much...
+-- 
+tg: (59f3c4a..) t/repo_name_mapping (depends on: upstream)

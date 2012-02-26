@@ -1,3 +1,9 @@
+gitolite (1:2.0.1-1) unstable; urgency=low
+
+  * Gitolite with ossxp hacking
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Sun, 26 Feb 2012 08:23:19 +0800
+
 gitolite (2.2-1) unstable; urgency=low
 
   * New Upstream version.

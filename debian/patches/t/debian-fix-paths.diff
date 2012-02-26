@@ -1,11 +1,20 @@
-Author: Gerfried Fuchs <rhonda@debian.at>	vim:ft=diff:
-Description: set some required paths
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] t/debian-fix-paths
 
-Index: b/conf/example.gitolite.rc
-===================================================================
+set some required paths
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
+
+---
+ conf/example.gitolite.rc |    4 ++--
+ src/gl-setup             |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/conf/example.gitolite.rc b/conf/example.gitolite.rc
+index 29272dc..b745ea6 100644
 --- a/conf/example.gitolite.rc
 +++ b/conf/example.gitolite.rc
-@@ -19,8 +19,8 @@ $GL_CONF_COMPILED="$GL_ADMINDIR/conf/git
+@@ -19,8 +19,8 @@ $GL_CONF_COMPILED="$GL_ADMINDIR/conf/gitolite.conf-compiled.pm";
  # DO NOT CHANGE THE NEXT FOUR LINES UNLESS YOU REALLY KNOW WHAT YOU'RE DOING.
  # These variables are set automatically by the install method you choose.
  #            (PACKAGE MAINTAINERS: PLEASE READ doc/packaging.mkd)
@@ -16,8 +25,8 @@ Index: b/conf/example.gitolite.rc
  
  # ------------------------------------------------------------------------------
  # most often used/changed variables
-Index: b/src/gl-setup
-===================================================================
+diff --git a/src/gl-setup b/src/gl-setup
+index fd8357b..3f1ff7d 100755
 --- a/src/gl-setup
 +++ b/src/gl-setup
 @@ -1,6 +1,6 @@
@@ -28,3 +37,5 @@ Index: b/src/gl-setup
  # must be the same as the value for the same variable in
  # $GL_PACKAGE_CONF/example.gitolite.rc.  Sorry about the catch-22 :)
  
+-- 
+tg: (59f3c4a..) t/debian-fix-paths (depends on: upstream)

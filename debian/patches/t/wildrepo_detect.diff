@@ -1,0 +1,40 @@
+From: Jiang Xin <jiangxin@ossxp.com>
+Subject: [PATCH] t/wildrepo_detect
+
+Smart wildrepo name detect, or in some cases wildrepo
+may created automatically as normal repository.
+
+Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
+
+---
+ src/gitolite_rc.pm  |    2 +-
+ src/gl-compile-conf |    1 +
+ 2 files changed, 2 insertions(+), 1 deletions(-)
+
+diff --git a/src/gitolite_rc.pm b/src/gitolite_rc.pm
+index f4bdd37..b9979e9 100644
+--- a/src/gitolite_rc.pm
++++ b/src/gitolite_rc.pm
+@@ -46,7 +46,7 @@ $W_COMMANDS=qr/^git[ -]receive-pack$/;
+ $REPONAME_PATT=qr(^\@?[0-9a-zA-Z][0-9a-zA-Z._\@/+-]*$);
+ $USERNAME_PATT=qr(^\@?[0-9a-zA-Z][0-9a-zA-Z._\@+-]*$);
+ # same as REPONAME, but used for wildcard repos, allows some common regex metas
+-$REPOPATT_PATT=qr(^\@?[0-9a-zA-Z[][\\^.$|()[\]*+?{}0-9a-zA-Z._\@/-]*$);
++$REPOPATT_PATT=qr(^(\^|\@)?[0-9a-zA-Z[][\\^.$|()[\]*+?{}0-9a-zA-Z._\@/-]*$);
+ 
+ # ADC commands and arguments must match this pattern
+ $ADC_CMD_ARGS_PATT=qr(^[0-9a-zA-Z._\@/+:-]*$);
+diff --git a/src/gl-compile-conf b/src/gl-compile-conf
+index 9799841..b4f87d9 100755
+--- a/src/gl-compile-conf
++++ b/src/gl-compile-conf
+@@ -422,6 +422,7 @@ sub do_normal_repos
+     for my $repo (sort @repos) {
+         next unless $repo =~ $REPONAME_PATT;    # skip repo patterns
+         next if $repo =~ m(^\@|EXTCMD/);        # skip groups and fake repos
++        next if $GL_WILDREPOS and ( $repo =~ /(^\^|\$$)/ or $repo =~ /\.(\*|\+)/ ); # is wild repos
+ 
+         unless ($GL_NO_CREATE_REPOS) {
+             unless (-d "$repo.git") {
+-- 
+tg: (59f3c4a..) t/wildrepo_detect (depends on: upstream)

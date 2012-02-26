@@ -1,0 +1,70 @@
+From: Jiang Xin <jiangxin@ossxp.com>
+Subject: [PATCH] t/creator_is_admin
+
+Creator has full rights.
+
+Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
+
+---
+ hooks/common/update |    7 +++++++
+ src/gitolite.pm     |    7 ++++++-
+ 2 files changed, 13 insertions(+), 1 deletions(-)
+
+diff --git a/hooks/common/update b/hooks/common/update
+index c264d22..aaa7dcf 100755
+--- a/hooks/common/update
++++ b/hooks/common/update
+@@ -83,6 +83,11 @@ if (exists $repos{$ENV{GL_REPO}}{NAME_LIMITS}) {
+ # the *first* one (which is a *real* ref, like refs/heads/master), while all
+ # the rest (if they exist) are like NAME/something.  So we do the first one
+ # separately to capture it, then run the rest (if any)
++# Bypass refs check if user is creater
++my ($creatorid, $dummy, $dummy2) = wild_repo_rights($ENV{GL_REPO}, "");
++if ($ENV{GL_USER} ne $creatorid)
++{
++##################################################
+ my $log_refex = check_ref(\@allowed_refs, $ENV{GL_REPO}, (shift @refs), $att_acc);
+ check_ref                (\@allowed_refs, $ENV{GL_REPO}, $_           , $att_acc) for @refs;
+ 
+@@ -95,5 +100,7 @@ $UPDATE_CHAINS_TO ||= 'hooks/update.secondary';
+ # now log it and exit 0 so git can get on with it
+ log_it("", "$att_acc\t" .  substr($oldsha, 0, 14) . "\t" . substr($newsha, 0, 14) .
+     "\t$reported_repo\t$ref\t$log_refex");
++##################################################
++}
+ 
+ exit 0;
+diff --git a/src/gitolite.pm b/src/gitolite.pm
+index 1f75a35..854dd2b 100644
+--- a/src/gitolite.pm
++++ b/src/gitolite.pm
+@@ -23,6 +23,7 @@ use Exporter 'import';
+     shell_out
+     special_cmd
+     try_adc
++    wild_repo_rights
+     wrap_chdir
+     wrap_open
+     wrap_print
+@@ -718,6 +719,9 @@ sub add_repo_conf
+         }
+ 
+         if ($exists) {
++            if ($creator and $creator eq $ENV{GL_USER}) {
++                $perm = ' %R %W';
++            }
+             if ($creator and $wild) {
+                 $creator = "($creator)";
+             } elsif ($creator and not $wild) {
+@@ -729,7 +733,8 @@ sub add_repo_conf
+             }
+         } else {
+             # repo didn't exist; C perms need to be filled in
+-            $perm = ( $repos{$repo}{C}{'@all'} ? ' @C' : ( $repos{$repo}{C}{$ENV{GL_USER}} ? ' =C' : '   ' )) if $GL_WILDREPOS;
++            # PUSH to create needs user has both C and RW rights.
++            $perm = ( $repos{$repo}{C}{'@all'} ? ' @C  @R  @W' : ( $repos{$repo}{C}{$ENV{GL_USER}} ? ' =C  %R  %W' : '   ' )) if $GL_WILDREPOS;
+             # if you didn't have perms to create it, delete the "convenience"
+             # copy of the ACL that parse_acl makes
+             delete $repos{$repo} if $perm !~ /C/ and $wild;
+-- 
+tg: (59f3c4a..) t/creator_is_admin (depends on: upstream)

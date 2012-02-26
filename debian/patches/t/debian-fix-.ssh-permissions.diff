@@ -1,0 +1,26 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] t/debian-fix-.ssh-permissions
+
+set proper permission for created .ssh directory
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
+
+---
+ src/gl-setup |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/src/gl-setup b/src/gl-setup
+index fd8357b..eed7658 100755
+--- a/src/gl-setup
++++ b/src/gl-setup
+@@ -92,7 +92,7 @@ fi
+ # authkeys etc., because in this case it seems appropriate
+ (
+     cd $HOME
+-    mkdir -p .ssh
++    mkdir -p -m700 .ssh
+     chmod go-rwx .ssh
+     touch .ssh/authorized_keys
+     chmod go-w . .ssh .ssh/authorized_keys
+-- 
+tg: (59f3c4a..) t/debian-fix-.ssh-permissions (depends on: upstream)

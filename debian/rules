@@ -90,6 +90,11 @@ binary-arch:
 
 binary: binary-indep
 
+debian/patches/: debian/patches
+debian/patches:
+	rm -rf debian/patches
+	tg export --all --quilt debian/patches
+	cd debian && git status || true
 
 define checkdir
 	test -f debian/rules
@@ -99,4 +104,4 @@ define checkroot
 	test root = "`whoami`"
 endef
 
-.PHONY: build clean binary-indep binary-arch binary install
+.PHONY: build clean binary-indep binary-arch binary install debian/patches

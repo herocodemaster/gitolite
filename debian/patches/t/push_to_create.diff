@@ -1,0 +1,35 @@
+From: Jiang Xin <jiangxin@ossxp.com>
+Subject: [PATCH] t/push_to_create
+
+Push to create new repository, and not create by clone.
+
+Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
+
+---
+ src/gl-auth-command |   11 ++++++++++-
+ 1 files changed, 10 insertions(+), 1 deletions(-)
+
+diff --git a/src/gl-auth-command b/src/gl-auth-command
+index 60f0e40..45eb947 100755
+--- a/src/gl-auth-command
++++ b/src/gl-auth-command
+@@ -148,7 +148,16 @@ if ( $GL_ALL_READ_ALL and $verb =~ $R_COMMANDS and -d "$REPO_BASE/$repo.git") {
+     ($perm, $creator, $wild) = repo_rights($repo);
+ }
+ # it was missing, and you have create perms, so create it
+-new_wild_repo($repo, $user) if ($perm =~ /C/);
++# $perm =~ /C/, means repo not exist!
++if ($perm =~ /C/) {
++    # when clone non-exist repo, do not create on-the-fly.
++    if ($verb =~ $W_COMMANDS) {
++        # it was missing, and you have create perms
++	new_wild_repo($repo, $user);
++    } else {
++        die "Repo $repo does not exist!\nBut since you have the create permission, you can PUSH to create the repository.\n"
++    }
++}
+ 
+ # we know the user and repo; we just need to know what perm he's trying for
+ # (aa == attempted access)
+-- 
+tg: (59f3c4a..) t/push_to_create (depends on: upstream)

@@ -1,3 +1,10 @@
-fix-paths
-fix-gl-setup
-fix-.ssh-permissions
+t/config_new_defaults.diff -p1
+t/creator_is_admin.diff -p1
+t/debian-fix-.ssh-permissions.diff -p1
+t/debian-fix-gl-setup.diff -p1
+t/debian-fix-paths.diff -p1
+t/escape_dollar_in_doublequotes.diff -p1
+t/mirror_switch.diff -p1
+t/push_to_create.diff -p1
+t/repo_name_mapping.diff -p1
+t/wildrepo_detect.diff -p1

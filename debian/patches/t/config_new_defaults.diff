@@ -1,0 +1,29 @@
+From: Jiang Xin <jiangxin@ossxp.com>
+Subject: [PATCH] t/config_new_defaults
+
+<patch description>
+
+Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
+
+---
+ conf/example.gitolite.rc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/conf/example.gitolite.rc b/conf/example.gitolite.rc
+index 29272dc..9231436 100644
+--- a/conf/example.gitolite.rc
++++ b/conf/example.gitolite.rc
+@@ -25,9 +25,9 @@ $GL_CONF_COMPILED="$GL_ADMINDIR/conf/gitolite.conf-compiled.pm";
+ # ------------------------------------------------------------------------------
+ # most often used/changed variables
+ # ------------------------------------------------------------------------------
+-$GL_WILDREPOS = 0;
++$GL_WILDREPOS = 1;
+ $PROJECTS_LIST = $ENV{HOME} . "/projects.list";
+-$REPO_UMASK = 0077;
++$REPO_UMASK = 0007;
+ 
+ # ------------------------------------------------------------------------------
+ # variables with an efficiency/performance impact
+-- 
+tg: (59f3c4a..) t/config_new_defaults (depends on: upstream)

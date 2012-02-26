@@ -1,0 +1,23 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] t/debian-fix-gl-setup
+
+gl-setup uses non-posix shell stuff - switching to bash
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
+
+---
+ src/gl-setup |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/src/gl-setup b/src/gl-setup
+index fd8357b..5b85789 100755
+--- a/src/gl-setup
++++ b/src/gl-setup
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ GL_PACKAGE_CONF=/tmp/share/gitolite/conf
+ # must be the same as the value for the same variable in
+-- 
+tg: (59f3c4a..) t/debian-fix-gl-setup (depends on: upstream)
