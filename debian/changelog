@@ -1,0 +1,147 @@
+gitolite (2.2-1) unstable; urgency=low
+
+  * New Upstream version.
+  * Do a chown -R on the tmpdir directory for the admin key (LP: #886524)
+  * Doh, really remove resetting the adminkey from the debconf config file,
+    sorry (closes: #621680)
+  * Install contrib files into examples doc directory (closes: #645668)
+
+ -- Gerfried Fuchs <rhonda@debian.org>  Mon, 19 Dec 2011 08:57:14 +0100
+
+gitolite (2.0.3-2) unstable; urgency=low
+
+  * Move the fix permission snippet to the end so that the templates and
+    md5sums control files also get proper permissions.  Thanks to Stefano
+    Rivera for notifying me about it.
+  * Updated debian/copyright file.
+  * Add recommended targets build-arch and build-indep to debian/rules.
+
+ -- Gerfried Fuchs <rhonda@debian.org>  Tue, 27 Sep 2011 11:23:18 +0200
+
+gitolite (2.0.3-1) unstable; urgency=low
+
+  * New Upstream version, containing fix for setting gitweb/gitdaemon
+    permissions on wildcard repos (closes: #635497)
+  * Bump Standards-Version to 3.9.2.
+  * Reset debconf adminkey to empty after extraction in postinst, not before
+    asking in config so that preseeding works (closes: #626465)
+  * Adjust debconf questions to priority medium to make them more likely to be
+    seen by admins (closes: #610765)
+  * Use hardcoded admin.pub keyname for admin, the filename given might not
+    have .pub extension.
+  * Only initialize when an admin key was given (closes: #610765, #617896)
+
+ -- Gerfried Fuchs <rhonda@debian.org>  Tue, 06 Sep 2011 13:31:23 +0200
+
+gitolite (2.0-1) unstable; urgency=low
+
+  * New Upstream version.
+  * Remove alternative on ssh-server, the used SSH_ORIGINAL_COMMAND
+    environment variable is set only by openssh-server.
+  * Change "conf" directory from /etc/gitolite to /usr/share/gitolite/conf,
+    these files aren't meant to get edited directly (closes: #611857)
+  * Also remove them as conffiles.
+  * Remove disable-interactive-mode patch, call gl-setup with -q instead.
+  * Refresh other patches.
+
+ -- Gerfried Fuchs <rhonda@debian.org>  Thu, 24 Mar 2011 00:11:38 +0100
+
+gitolite (1.5.7-2) unstable; urgency=high
+
+  * cherry-pick 4ce00a commit to fix security issue related to ACDs.
+
+ -- Gerfried Fuchs <rhonda@debian.org>  Sun, 27 Feb 2011 19:39:15 +0100
+
+gitolite (1.5.7-1) unstable; urgency=low
+
+  * New Upstream version.
+  * Bump Standards-Version to 3.9.1.
+  * Refresh fix-.ssh-permissions patch.
+  * Rewrite debian/copyright in DEP5 format.
+  * Fix debian/watch to download tarball instead of zipball.
+  * New patch disable-interactive-mode which disables interactive mode in
+    gl-setup script on new install.
+
+ -- Gerfried Fuchs <rhonda@debian.org>  Sat, 15 Jan 2011 00:53:50 +0100
+
+gitolite (1.5.4-2) unstable; urgency=low
+
+  * Re-add -p to mkdir for .ssh dir (LP: #634718)
+  * New/updated debconf translations:
+    - Portuguese by Américo Monteiro, sorry for taking the wrong file in the
+      former upload (closes: #595312)
+    - Japanese by Hideki Yamane (closes: #595457)
+    - Vietnamese by Clytie Siddall (closes: #598592)
+
+ -- Gerfried Fuchs <rhonda@debian.at>  Tue, 05 Oct 2010 22:11:58 +0200
+
+gitolite (1.5.4-1) unstable; urgency=low
+
+  * New Upstream version.
+  * Apply patches from l10n-english team to improve the package description
+    and debconf questions. Thanks! (closes: #588870)
+  * Added/updated debconf translation:
+    - Spanish by Omar Campagne (closes: #587247)
+    - French by Thomas Blein (closes: #587556, #590850, #594309)
+    - Portuguese by Américo Monteiro (closes: #587462)
+    - Swedish by Martin Bagge (closes: #587537, #589271)
+    - German by myself
+    - Russian by Yuri Kozlov (closes: #589249)
+    - Czech by Michal Šimůnek (closes: #589277)
+    - Slovak by Slavko (closes: #593058)
+    - Danish by Joe Hansen (closes: #593272)
+    - Italian by Vincenzo Campanella (closes: #593669)
+  * Fix a final minor issue in the debconf template that could be
+    misunderstood.
+  * Change packaging licensing to WTFPLv2.
+
+ -- Gerfried Fuchs <rhonda@debian.at>  Mon, 30 Aug 2010 21:01:46 +0200
+
+gitolite (1.5.3-1) unstable; urgency=low
+
+  [ Gerfried Fuchs ]
+  * New Upstream release.
+  * Added debconf translations:
+    - French by Thomas Blein (closes: #580022)
+    - Swedish by Martin Bagge (closes: #580144)
+    - Portuguese by Américo Monteiro (closes: #580442)
+  * Added Vcs-* control fields.
+  * Don't chown /etc/gitolite/* anymore, it's not needed.
+  * Test for $GITDIR/.gitolite.rc instead of only $GITDIR for creation check
+    (closes: #582200)
+  * Enhance debian/templates text.
+
+  [ Teemu Matilainen ]
+  * debian/control: Prefer new git package in Depends
+  * debian/rule: Generate and install the VERSION file (closes: #582201)
+  * debian/gl-setup: Use exec in gl-setup
+  * debian/config, debian/templates: Default to empty key
+  * debian/watch: Mangle Github urls to also download the tarball
+
+ -- Gerfried Fuchs <rhonda@debian.at>  Thu, 24 Jun 2010 21:14:04 +0200
+
+gitolite (1.4.2-1) unstable; urgency=low
+
+  * New Upstream release.
+  * Add patch fix-.ssh-permissions to set tight permissions on created .ssh
+    directory.
+
+ -- Gerfried Fuchs <rhonda@debian.at>  Thu, 29 Apr 2010 19:35:02 +0200
+
+gitolite (1.3-2) unstable; urgency=low
+
+  * Create the user with --shell /bin/bash instead of /bin/false to make the
+    package actually work.
+  * Install debian/gl-setup as wrapper script.
+  * Remove awkward hack for gl-setup calling in postinst, fixed because of
+    above two changes.
+  * Add German debconf translation, replaced some placeholders in the
+    template.
+
+ -- Gerfried Fuchs <rhonda@debian.at>  Fri, 09 Apr 2010 18:00:07 +0200
+
+gitolite (1.3-1) unstable; urgency=low
+
+  * Initial release (closes: #550817)
+
+ -- Gerfried Fuchs <rhonda@debian.at>  Thu, 08 Apr 2010 23:56:44 +0200
