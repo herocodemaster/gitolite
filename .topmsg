@@ -1,0 +1,6 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] t/debian-fix-gl-setup
+
+gl-setup uses non-posix shell stuff - switching to bash
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
