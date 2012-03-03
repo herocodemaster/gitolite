@@ -111,11 +111,24 @@ gl-install -q
 
 [ -f $GL_ADMINDIR/conf/gitolite.conf ] || {
     cat <<EOF | cut -c9- > $GL_ADMINDIR/conf/gitolite.conf
+        @admin = $admin_name
+
         repo    gitolite-admin
-                RW+     =   $admin_name
+                RW+     =   @admin
+
+        repo    users/CREATOR/[a-zA-Z].*
+                C   =  @all
+                RW+ =  CREATOR
+                RW  =  WRITERS
+                R   =  READERS @admin
 
         repo    testing
-                RW+     =   @all
+                RW+CD                    = @admin
+                -     refs/tags/v[0-9]   = @all
+                RWC   refs/tags/         = @all
+                RW    master             = @all
+                RW+CD refs/heads/u/USER/ = @all
+
 EOF
 }
 [ -n "$pubkey_file" ] && cp $pubkey_file $GL_ADMINDIR/keydir
