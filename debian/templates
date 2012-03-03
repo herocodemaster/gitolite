@@ -9,7 +9,7 @@
 
 Template: gitolite/gituser
 Type: string
-Default: gitolite
+Default: git
 _Description: System username for gitolite:
  Please enter the name for the system user which should be used by
  gitolite to access repositories. It will be created if necessary.

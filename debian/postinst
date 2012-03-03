@@ -34,7 +34,7 @@ fi
 if [ "x$version" = "x" ] || [ "$action" = "reconfigure" ]; then
 
 	db_get gitolite/gituser
-	GITUSER="${RET:-gitolite}"
+	GITUSER="${RET:-git}"
 
 	db_get gitolite/gitdir
 	GITDIR="${RET:-/var/lib/gitolite}"
