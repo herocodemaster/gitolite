@@ -1,0 +1,7 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] t/debian-fix-gl-admindir-perms
+
+Set $GL_ADMINDIR perms to 0750, so that group users (such as www-data)
+can use gitolite auth service.
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
