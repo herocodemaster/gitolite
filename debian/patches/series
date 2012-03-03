@@ -1,6 +1,7 @@
 t/config_new_defaults.diff -p1
 t/creator_is_admin.diff -p1
 t/debian-fix-.ssh-permissions.diff -p1
+t/debian-fix-gl-admindir-perms.diff -p1
 t/debian-fix-gl-setup.diff -p1
 t/debian-fix-paths.diff -p1
 t/debian-initial-config.diff -p1

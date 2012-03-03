@@ -1,3 +1,9 @@
+gitolite (1:2.0.1-ossxp-4) unstable; urgency=low
+
+  * Set $GL_ADMINPATH perms to 0750
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Sun, 04 Mar 2012 05:03:47 +0800
+
 gitolite (1:2.0.1-ossxp-3) unstable; urgency=low
 
   * Custom config.

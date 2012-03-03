@@ -1,0 +1,32 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] t/debian-fix-gl-admindir-perms
+
+Set $GL_ADMINDIR perms to 0750, so that group users (such as www-data)
+can use gitolite auth service.
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
+
+---
+ src/gl-install |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/gl-install b/src/gl-install
+index cd1702a..b742d7e 100755
+--- a/src/gl-install
++++ b/src/gl-install
+@@ -61,11 +61,11 @@ umask($REPO_UMASK);
+ 
+ # mkdir $REPO_BASE, $GL_ADMINDIR if they don't already exist
+ wrap_mkdir($REPO_BASE);
+-wrap_mkdir($GL_ADMINDIR, 0700);
++wrap_mkdir($GL_ADMINDIR, 0750);
+ # mkdir $GL_ADMINDIR's subdirs
+ for my $dir qw(conf doc keydir logs src hooks hooks/common hooks/gitolite-admin) {
+     # some of them will stay empty; too lazy to fix right now ;-)
+-    wrap_mkdir("$GL_ADMINDIR/$dir", 0700);
++    wrap_mkdir("$GL_ADMINDIR/$dir", 0750);
+ }
+ 
+ # "src" and "doc" will be overwritten on each install, but not conf
+-- 
+tg: (39aeae1..) t/debian-fix-gl-admindir-perms (depends on: master)
