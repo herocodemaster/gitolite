@@ -1,4 +1,4 @@
-gitolite (1:2.0.1-ossxp-2) unstable; urgency=low
+gitolite (1:2.0.1-ossxp-3) unstable; urgency=low
 
   * Custom config.
   * Add adc-bin

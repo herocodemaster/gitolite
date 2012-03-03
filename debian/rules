@@ -12,7 +12,7 @@ INSTALL_PROGRAM = $(INSTALL) -p    -oroot -groot -m755
 INSTALL_SCRIPT  = $(INSTALL) -p    -oroot -groot -m755
 INSTALL_DIR     = $(INSTALL) -p -d -oroot -groot -m755
 
-GL_VERSION = $(shell dpkg-parsechangelog | sed -n -e 's/^Version: \(.*\)/\1 (Debian)/p')
+GL_VERSION = $(shell dpkg-parsechangelog | sed -n -e 's/^Version: \([0-9]\+:\)\?\(.*\)/\2 (Debian)/p')
 
 include /usr/share/quilt/quilt.make
 
