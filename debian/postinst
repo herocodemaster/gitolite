@@ -87,6 +87,11 @@ if [ "x$version" = "x" ] || [ "$action" = "reconfigure" ]; then
 			echo "gitolite seems to be already set up in $GITDIR, doing nothing." 1>&2
 		fi
 
+		# Add adc-bin, which link to /usr/share/...
+		if [ ! -e "$GITDIR/adc-bin" ]; then
+			ln -s /usr/share/doc/gitolite/examples/adc $GITDIR/adc-bin
+		fi
+
 	else
 		echo "No adminkey given - not setting up gitolite." 1>&2
 	fi

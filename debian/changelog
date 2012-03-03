@@ -1,3 +1,10 @@
+gitolite (1:2.0.1-ossxp-2) unstable; urgency=low
+
+  * Custom config.
+  * Add adc-bin
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Sun, 04 Mar 2012 02:47:07 +0800
+
 gitolite (1:2.0.1-1) unstable; urgency=low
 
   * Gitolite with ossxp hacking
