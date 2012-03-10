@@ -11,6 +11,8 @@ INSTALL_FILE    = $(INSTALL) -p    -oroot -groot -m644
 INSTALL_PROGRAM = $(INSTALL) -p    -oroot -groot -m755
 INSTALL_SCRIPT  = $(INSTALL) -p    -oroot -groot -m755
 INSTALL_DIR     = $(INSTALL) -p -d -oroot -groot -m755
+INSTALL_DIR_GIT = $(INSTALL) -p -d -ogit  -ggit  -m755
+INSTALL_FILE_GIT= $(INSTALL) -p    -ogit  -ggit  -m644
 
 GL_VERSION = $(shell dpkg-parsechangelog | sed -n -e 's/^Version: \([0-9]\+:\)\?\(.*\)/\2 (Debian)/p')
 
@@ -41,11 +43,18 @@ install: patch conf/VERSION
 	$(INSTALL_DIR) $(TMP)
 	cd $(TMP) && $(INSTALL_DIR) usr/share/$(PKG)/conf \
 		usr/bin usr/share/$(PKG)/hooks \
-		usr/share/doc/$(PKG)/examples
+		usr/share/doc/$(PKG)/examples \
+		etc/apache2/include/git/sso
+	cd $(TMP) && $(INSTALL_DIR_GIT) var/www/gitolite
 	$(INSTALL_FILE) README.mkd doc/* \
 		$(TMP)/usr/share/doc/$(PKG)
 	$(INSTALL_FILE) conf/* \
 		$(TMP)/usr/share/$(PKG)/conf
+	$(INSTALL_FILE_GIT) debian/suexec/* \
+		$(TMP)/var/www/gitolite/
+	$(INSTALL_FILE) debian/apache2/* \
+		$(TMP)/etc/apache2/include/git/
+	( cd $(TMP)/etc/apache2/include/git/sso; ln -s ../git-http-backend.conf . )
 	cp -a hooks/* \
 		$(TMP)/usr/share/$(PKG)/hooks
 	mv $(TMP)/usr/share/doc/$(PKG)/CHANGELOG \

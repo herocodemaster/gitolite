@@ -92,6 +92,9 @@ if [ "x$version" = "x" ] || [ "$action" = "reconfigure" ]; then
 			ln -s /usr/share/doc/gitolite/examples/adc $GITDIR/adc-bin
 		fi
 
+		# Set owner, group for /var/www/gitolite
+		chown -R "$GITUSER"."$GITUSER" /var/www/gitolite
+
 	else
 		echo "No adminkey given - not setting up gitolite." 1>&2
 	fi

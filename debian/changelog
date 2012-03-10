@@ -1,3 +1,9 @@
+gitolite (1:2.0.1-ossxp-6) unstable; urgency=low
+
+  * Add http/https protocol support.
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Sun, 04 Mar 2012 05:03:47 +0800
+
 gitolite (1:2.0.1-ossxp-5) unstable; urgency=low
 
   * Set default gitolite user: git.
