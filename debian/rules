@@ -12,7 +12,7 @@ INSTALL_PROGRAM = $(INSTALL) -p    -oroot -groot -m755
 INSTALL_SCRIPT  = $(INSTALL) -p    -oroot -groot -m755
 INSTALL_DIR     = $(INSTALL) -p -d -oroot -groot -m755
 INSTALL_DIR_GIT = $(INSTALL) -p -d -ogit  -ggit  -m755
-INSTALL_FILE_GIT= $(INSTALL) -p    -ogit  -ggit  -m644
+INSTALL_FILE_GITX= $(INSTALL) -p    -ogit  -ggit  -m755
 
 GL_VERSION = $(shell dpkg-parsechangelog | sed -n -e 's/^Version: \([0-9]\+:\)\?\(.*\)/\2 (Debian)/p')
 
@@ -51,7 +51,7 @@ install: patch conf/VERSION
 		$(TMP)/usr/share/doc/$(PKG)
 	$(INSTALL_FILE) conf/* \
 		$(TMP)/usr/share/$(PKG)/conf
-	$(INSTALL_FILE_GIT) debian/suexec/* \
+	$(INSTALL_FILE_GITX) debian/suexec/* \
 		$(TMP)/var/www/gitolite/
 	$(INSTALL_FILE) debian/apache2/* \
 		$(TMP)/etc/apache2/include/git/

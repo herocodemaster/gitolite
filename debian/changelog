@@ -1,7 +1,8 @@
-gitolite (1:2.0.1-ossxp-6.2) unstable; urgency=low
+gitolite (1:2.0.1-ossxp-6.3) unstable; urgency=low
 
   * Add package_info for config files substitude.
   * Set default ldap basedn to dc=foo,dc=bar
+  * Set suexec scrpit excutable.
 
  -- Jiang Xin <worldhello.net@gmail.com>  Sun, 04 Mar 2012 05:03:47 +0800
 
