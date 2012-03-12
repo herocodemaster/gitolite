@@ -44,7 +44,8 @@ install: patch conf/VERSION
 	cd $(TMP) && $(INSTALL_DIR) usr/share/$(PKG)/conf \
 		usr/bin usr/share/$(PKG)/hooks \
 		usr/share/doc/$(PKG)/examples \
-		etc/apache2/include/git/sso
+		etc/apache2/include/git/sso \
+		opt/ossxp/lib/packages
 	cd $(TMP) && $(INSTALL_DIR_GIT) var/www/gitolite
 	$(INSTALL_FILE) README.mkd doc/* \
 		$(TMP)/usr/share/doc/$(PKG)
@@ -54,6 +55,8 @@ install: patch conf/VERSION
 		$(TMP)/var/www/gitolite/
 	$(INSTALL_FILE) debian/apache2/* \
 		$(TMP)/etc/apache2/include/git/
+	$(INSTALL_FILE) debian/package_info/* \
+		$(TMP)/opt/ossxp/lib/packages/
 	( cd $(TMP)/etc/apache2/include/git/sso; ln -s ../git-http-backend.conf . )
 	cp -a hooks/* \
 		$(TMP)/usr/share/$(PKG)/hooks
