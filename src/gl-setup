@@ -123,11 +123,13 @@ gl-install -q
                 R   =  READERS @admin
 
         repo    testing
-                RW+CD                    = @admin
-                -     refs/tags/v[0-9]   = @all
-                RWC   refs/tags/         = @all
-                RW    master             = @all
-                RW+CD refs/heads/u/USER/ = @all
+                #config hooks.mailinglist  = testing-commit@list.foo.bar
+                #config hooks.announcelist = testing-commit@list.foo.bar
+                RW+CD                     = @admin
+                -     refs/tags/v[0-9]    = @all
+                RWC   refs/tags/          = @all
+                RW    master              = @all
+                RW+CD refs/heads/u/USER/  = @all
 
 EOF
 }
