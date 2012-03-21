@@ -1,6 +1,7 @@
-gitolite (1:2.3-ossxp-7.1) unstable; urgency=low
+gitolite (1:2.3-ossxp-7.2) unstable; urgency=low
 
   * Set git uid and gid to 512.
+  * Add repositories-sandbox for hold removed repos.
 
  -- Jiang Xin <worldhello.net@gmail.com>  Wed, 21 Mar 2012 20:38:29 +0800
 

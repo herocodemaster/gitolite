@@ -95,6 +95,11 @@ if [ "x$version" = "x" ] || [ "$action" = "reconfigure" ]; then
 			echo "gitolite seems to be already set up in $GITDIR, doing nothing." 1>&2
 		fi
 
+		# Create sandbox directory to hold deleted repositories
+		mkdir -p $GITDIR/repositories-sandbox
+		chown "$GITUSER":"$GITUSER" $GITDIR/repositories-sandbox
+		chmod 770 $GITDIR/repositories-sandbox
+
 		# Add adc-bin, which link to /usr/share/...
 		if [ ! -e "$GITDIR/adc-bin" ]; then
 			ln -s /usr/share/doc/gitolite/examples/adc $GITDIR/adc-bin
