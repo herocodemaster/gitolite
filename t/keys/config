@@ -1,4 +1,9 @@
-host u?
+host *
+    stricthostkeychecking no
+host gitolite
+        identityfile ~/.ssh/tester
+
+host u? gitolite
 	user gitolite-test
 	hostname localhost
 host u1
