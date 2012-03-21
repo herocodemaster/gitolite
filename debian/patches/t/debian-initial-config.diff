@@ -7,11 +7,11 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
 
 ---
  conf/example.gitolite.rc |   18 ++++++++++++------
- src/gl-setup             |   17 +++++++++++++++--
- 2 files changed, 27 insertions(+), 8 deletions(-)
+ src/gl-setup             |   19 +++++++++++++++++--
+ 2 个文件被修改，插入 29 行(+)，删除 8 行(-)
 
 diff --git a/conf/example.gitolite.rc b/conf/example.gitolite.rc
-index 9231436..94409ba 100644
+index 9231436..9955e6d 100644
 --- a/conf/example.gitolite.rc
 +++ b/conf/example.gitolite.rc
 @@ -44,19 +44,25 @@ $GL_NO_DAEMON_NO_GITWEB = 0;
@@ -21,7 +21,7 @@ index 9231436..94409ba 100644
 -$GL_GITCONFIG_KEYS = "";
 -# $GL_GITCONFIG_WILD = 0;
 +# Available git config settings for repo. Keys gitolite.mirror.* is used for repo mirror
-+$GL_GITCONFIG_KEYS = "gitolite.mirror.* core\\.logAllRefUpdates core\\..*compression";
++$GL_GITCONFIG_KEYS = "gitolite.mirror.* core\\.logAllRefUpdates core\\..*compression hooks\\..* hooks\\..*";
 +# Warning user if set git config against wild repo.
 +$GL_GITCONFIG_WILD = 1;
  $GL_NO_CREATE_REPOS = 0;
@@ -55,10 +55,10 @@ index 9231436..94409ba 100644
  # ------------------------------------------------------------------------------
  # variables that should NOT be changed after the install step completes
 diff --git a/src/gl-setup b/src/gl-setup
-index fd8357b..987001a 100755
+index fd8357b..f2819e6 100755
 --- a/src/gl-setup
 +++ b/src/gl-setup
-@@ -111,11 +111,24 @@ gl-install -q
+@@ -111,11 +111,26 @@ gl-install -q
  
  [ -f $GL_ADMINDIR/conf/gitolite.conf ] || {
      cat <<EOF | cut -c9- > $GL_ADMINDIR/conf/gitolite.conf
@@ -76,11 +76,13 @@ index fd8357b..987001a 100755
  
          repo    testing
 -                RW+     =   @all
-+                RW+CD                    = @admin
-+                -     refs/tags/v[0-9]   = @all
-+                RWC   refs/tags/         = @all
-+                RW    master             = @all
-+                RW+CD refs/heads/u/USER/ = @all
++                #config hooks.mailinglist  = testing-commit@list.foo.bar
++                #config hooks.announcelist = testing-commit@list.foo.bar
++                RW+CD                     = @admin
++                -     refs/tags/v[0-9]    = @all
++                RWC   refs/tags/          = @all
++                RW    master              = @all
++                RW+CD refs/heads/u/USER/  = @all
 +
  EOF
  }

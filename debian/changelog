@@ -1,3 +1,11 @@
+gitolite (1:2.0.1-ossxp-7) unstable; urgency=low
+
+  * Change ADC/rm behavior: move repo to sandbox, instead of rm -rf.
+  * New patch: mirror-missing-repo.
+  * Send notify email when receive push.
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Wed, 21 Mar 2012 11:06:59 +0800
+
 gitolite (1:2.0.1-ossxp-6.3) unstable; urgency=low
 
   * Add package_info for config files substitude.

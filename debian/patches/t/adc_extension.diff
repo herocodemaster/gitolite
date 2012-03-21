@@ -1,0 +1,43 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] t/adc_extension
+
+When user del repo, move to repositories-sandbox, if exist
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
+
+---
+ contrib/adc/rm |   19 +++++++++++++++++--
+ 1 个文件被修改，插入 17 行(+)，删除 2 行(-)
+
+diff --git a/contrib/adc/rm b/contrib/adc/rm
+index 7223a6c..4d0b3b6 100755
+--- a/contrib/adc/rm
++++ b/contrib/adc/rm
+@@ -30,8 +30,23 @@ opt $ARE_YOU_SURE && {
+     [ $s = "yes" ] || die aborting...
+ }
+ 
+-rm -rf $repo.git
+-echo "$repo is now GONE!"
++repo_sandbox="$(cd ..; pwd)/repositories-sandbox"
++if test -d "$repo_sandbox"
++then
++    (cd $repo_sandbox; mkdir -p ${repo%/*})
++    renamed_repo=$repo_sandbox/$repo.git
++    if test -d "$renamed_repo"
++    then
++        renamed_repo=$repo_sandbox/$repo.git-$(date +"%Y%m%d%H%M%S")
++    fi
++    echo "repo moved to $renamed_repo"
++    mv "$repo.git" "$renamed_repo"
++else
++    echo "Warning: Create a sandbox dir -- $repo_sandbox to hold the obsolte repox."
++    echo "         or the repo $repo will be deleted permanently."
++    rm -rf "$repo.git"
++    echo "$repo is now GONE!"
++fi
+ 
+ cd $HOME
+ PROJECTS_LIST=$($GL_BINDIR/gl-query-rc PROJECTS_LIST)
+-- 
+tg: (39aeae1..) t/adc_extension (depends on: master)

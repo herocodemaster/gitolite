@@ -6,71 +6,24 @@ Do not mirror repository if set gitolite.mirror to false.
 Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
 
 ---
- hooks/common/post-receive.mirrorpush |   15 ++++++++++++++-
- src/gl-mirror-sync                   |   10 ++++++++++
- 2 files changed, 24 insertions(+), 1 deletions(-)
+ hooks/common/post-receive.mirrorpush |    7 +++++++
+ 1 个文件被修改，插入 7 行(+)
 
 diff --git a/hooks/common/post-receive.mirrorpush b/hooks/common/post-receive.mirrorpush
-index 6be6d81..32b7400 100755
+index 4b31741..cba8b8a 100755
 --- a/hooks/common/post-receive.mirrorpush
 +++ b/hooks/common/post-receive.mirrorpush
-@@ -10,6 +10,13 @@
+@@ -20,4 +20,11 @@ die() { echo $0 "(post-receive.mirrorpush):" "$@" >&2; exit 1; }
  
- if [ -n "$GL_SLAVES" ]
- then
-+    if [ "$(git config --bool gitolite.mirror)" = "false" ]
-+    then
-+        echo "**************************************************" >&2
-+        echo "WARNING: mirror disabled for this repository."      >&2
-+        echo "**************************************************" >&2
-+        exit 0
-+    fi
-     for mirror in $GL_SLAVES
-     do
-         if git push --mirror $mirror:$GL_REPO.git
-@@ -19,8 +26,14 @@ then
-             ssh $mirror mkdir -p $GL_REPO.git
-             ssh $mirror git init --bare $GL_REPO.git
-             ssh $mirror "cd $GL_REPO.git; git config receive.fsckObjects true"
--            git push --mirror $mirror:$GL_REPO.git ||
-+            if git push --mirror $mirror:$GL_REPO.git
-+            then
-+                :
-+            else
-+                echo "**************************************************"
-                 echo "WARNING: mirror push to $mirror failed"
-+                echo "**************************************************"
-+            fi
-         fi
-     done
- fi >&2
-diff --git a/src/gl-mirror-sync b/src/gl-mirror-sync
-index e946ec0..5bc2134 100755
---- a/src/gl-mirror-sync
-+++ b/src/gl-mirror-sync
-@@ -25,6 +25,15 @@ do
-         continue
-     fi
- 
-+    # mirror can be disabled by gitolite.mirror config variable
-+    if [ "$(git config --bool gitolite.mirror)" = "false" ]
-+    then
-+        echo "**************************************************" >&2
-+        echo "WARNING: mirror disabled for repository $r."        >&2
-+        echo "**************************************************" >&2
-+        continue
-+    fi
-+
-     # this is essentially the same code as in the post-receive hook
-     if git push --mirror $mirror:$r
-     then
-@@ -32,6 +41,7 @@ do
-     else
-         ssh $mirror mkdir -p $r
-         ssh $mirror git init --bare $r
-+        ssh $mirror "cd $r; git config receive.fsckObjects true"
-         git push --mirror $mirror:$r ||
-             echo "WARNING: mirror push to $mirror failed"
-     fi < /dev/null
+ slaves=`git config --get gitolite.mirror.slaves`
+ [ -z "$slaves" ] && exit 0
++if [ "$(git config --bool gitolite.mirror.disabled)" = "true" ]
++then
++    echo "**************************************************"
++    echo "WARNING: mirror disabled for this repository."
++    echo "**************************************************"
++    exit 0
++fi >&2
+ $GL_BINDIR/gl-mirror-push $GL_REPO $slaves
 -- 
-tg: (59f3c4a..) t/mirror_switch (depends on: upstream)
+tg: (01e789a..) t/mirror_switch (depends on: upstream)

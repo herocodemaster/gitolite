@@ -6,30 +6,58 @@ Push to create new repository, and not create by clone.
 Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
 
 ---
- src/gl-auth-command |   11 ++++++++++-
- 1 files changed, 10 insertions(+), 1 deletions(-)
+ conf/example.gitolite.rc |    4 ++++
+ src/gitolite_rc.pm       |    1 +
+ src/gl-auth-command      |   10 +++++++++-
+ 3 个文件被修改，插入 14 行(+)，删除 1 行(-)
 
+diff --git a/conf/example.gitolite.rc b/conf/example.gitolite.rc
+index 9e3b39d..45fd891 100644
+--- a/conf/example.gitolite.rc
++++ b/conf/example.gitolite.rc
+@@ -83,6 +83,10 @@ $GL_LOGT="$GL_ADMINDIR/logs/gitolite-%y-%m.log";
+ $REPO_BASE="repositories";
+ 
+ # ------------------------------------------------------------------------------
++# set to 1, clone will not create new repo.
++$GL_REPO_CREATE_BY_CLONE = 0;
++
++# ------------------------------------------------------------------------------
+ # DO NOT TOUCH ANY THING AFTER THIS LINE
+ # ------------------------------------------------------------------------------
+ 
+diff --git a/src/gitolite_rc.pm b/src/gitolite_rc.pm
+index 9f65a7d..3c67115 100644
+--- a/src/gitolite_rc.pm
++++ b/src/gitolite_rc.pm
+@@ -25,6 +25,7 @@ use Exporter 'import';
+     $GITWEB_URI_ESCAPE $REPO_BASE $REPO_UMASK $RSYNC_BASE $SVNSERVE
+     $UPDATE_CHAINS_TO $AUTH_OPTIONS
+     $GL_HOSTNAME
++    $GL_REPO_CREATE_BY_CLONE
+ 
+     $GL_HTTP_ANON_USER
+ );
 diff --git a/src/gl-auth-command b/src/gl-auth-command
-index 60f0e40..45eb947 100755
+index 851f614..45546ba 100755
 --- a/src/gl-auth-command
 +++ b/src/gl-auth-command
-@@ -148,7 +148,16 @@ if ( $GL_ALL_READ_ALL and $verb =~ $R_COMMANDS and -d "$REPO_BASE/$repo.git") {
+@@ -160,7 +160,15 @@ if ( $GL_ALL_READ_ALL and $verb =~ $R_COMMANDS and -d "$REPO_BASE/$repo.git") {
      ($perm, $creator, $wild) = repo_rights($repo);
  }
  # it was missing, and you have create perms, so create it
 -new_wild_repo($repo, $user) if ($perm =~ /C/);
-+# $perm =~ /C/, means repo not exist!
++# $perm =~ /C/, means repo does not exist!
 +if ($perm =~ /C/) {
-+    # when clone non-exist repo, do not create on-the-fly.
-+    if ($verb =~ $W_COMMANDS) {
-+        # it was missing, and you have create perms
-+	new_wild_repo($repo, $user);
++    # create the non-exist repo, only when user run `git push` command, but not `git clone`.
++    if ($verb =~ $W_COMMANDS or $GL_REPO_CREATE_BY_CLONE) {
++        new_wild_repo($repo, $user);
 +    } else {
-+        die "Repo $repo does not exist!\nBut since you have the create permission, you can PUSH to create the repository.\n"
++        die "Repo $repo does not exist!\nYou can create the repo using 'git push' command, if you have permissions.\n"
 +    }
 +}
  
- # we know the user and repo; we just need to know what perm he's trying for
- # (aa == attempted access)
+ die "$aa access for $repo DENIED to $user
+ (Or there may be no repository at the given path. Did you spell it correctly?)\n" unless $perm =~ /$aa/;
 -- 
-tg: (59f3c4a..) t/push_to_create (depends on: upstream)
+tg: (01e789a..) t/push_to_create (depends on: upstream)

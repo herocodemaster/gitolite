@@ -8,7 +8,7 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
 
 ---
  src/gl-install |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ 1 个文件被修改，插入 2 行(+)，删除 2 行(-)
 
 diff --git a/src/gl-install b/src/gl-install
 index cd1702a..b742d7e 100755

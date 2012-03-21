@@ -10,13 +10,13 @@ Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
 
 ---
  src/gl-compile-conf |   16 ++++++++++++++++
- 1 files changed, 16 insertions(+), 0 deletions(-)
+ 1 个文件被修改，插入 16 行(+)
 
 diff --git a/src/gl-compile-conf b/src/gl-compile-conf
-index 9799841..f5146fd 100755
+index 2f652ef..54866fb 100755
 --- a/src/gl-compile-conf
 +++ b/src/gl-compile-conf
-@@ -448,6 +448,16 @@ sub do_normal_repos
+@@ -459,6 +459,16 @@ sub do_normal_repos
      }
  }
  
@@ -33,7 +33,7 @@ index 9799841..f5146fd 100755
  sub write_1_compiled_conf
  {
      # warning: writes and *deletes* it from %repos and %git_configs
-@@ -469,6 +479,8 @@ sub write_1_compiled_conf
+@@ -480,6 +490,8 @@ sub write_1_compiled_conf
      # the dump uses single quotes, but we convert any strings containing $creator
      # and $gl_user to double quoted strings.  A bit sneaky, but not too much...
      $dumped_data =~ s/'(?=[^']*\$(?:creator|gl_user))~?(.*?)'/"$1"/g;
@@ -42,7 +42,7 @@ index 9799841..f5146fd 100755
      print $compiled_fh $dumped_data;
      close $compiled_fh;
  
-@@ -485,11 +497,15 @@ sub write_compiled_conf
+@@ -496,11 +508,15 @@ sub write_compiled_conf
      # the dump uses single quotes, but we convert any strings containing $creator
      # and $gl_user to double quoted strings.  A bit sneaky, but not too much...
      $dumped_data =~ s/'(?=[^']*\$(?:creator|gl_user))~?(.*?)'/"$1"/g;
@@ -59,4 +59,4 @@ index 9799841..f5146fd 100755
      }
      print $compiled_fh Data::Dumper->Dump([\%split_conf], [qw(*split_conf)]) if %split_conf;
 -- 
-tg: (59f3c4a..) t/escape_dollar_in_doublequotes (depends on: upstream)
+tg: (01e789a..) t/escape_dollar_in_doublequotes (depends on: upstream)

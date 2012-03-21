@@ -9,13 +9,13 @@ Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
  src/gitolite.pm     |   21 +++++++++++++++++++++
  src/gl-auth-command |    3 +++
  src/gl-compile-conf |   15 ++++++++++++++-
- 3 files changed, 38 insertions(+), 1 deletions(-)
+ 3 个文件被修改，插入 38 行(+)，删除 1 行(-)
 
 diff --git a/src/gitolite.pm b/src/gitolite.pm
-index 1f75a35..876e5ae 100644
+index 062706f..610ac19 100644
 --- a/src/gitolite.pm
 +++ b/src/gitolite.pm
-@@ -12,6 +12,7 @@ use Exporter 'import';
+@@ -14,6 +14,7 @@ use Exporter 'import';
      list_phy_repos
      ln_sf
      log_it
@@ -23,7 +23,7 @@ index 1f75a35..876e5ae 100644
      new_repo
      new_wild_repo
      repo_rights
-@@ -77,6 +78,7 @@ use gitolite_rc;
+@@ -88,6 +89,7 @@ $GITWEB_URI_ESCAPE &&= eval "use CGI::Util qw(escape); 1";
  
  our %repos;
  our %groups;
@@ -31,7 +31,7 @@ index 1f75a35..876e5ae 100644
  our %git_configs;
  our %split_conf;
  our $data_version;
-@@ -581,6 +583,25 @@ sub expand_wild
+@@ -668,6 +670,25 @@ sub expand_wild
  }
  
  # ----------------------------------------------------------------------------
@@ -58,10 +58,10 @@ index 1f75a35..876e5ae 100644
  # ----------------------------------------------------------------------------
  
 diff --git a/src/gl-auth-command b/src/gl-auth-command
-index 60f0e40..abdbc4a 100755
+index 851f614..6569de6 100755
 --- a/src/gl-auth-command
 +++ b/src/gl-auth-command
-@@ -132,6 +132,9 @@ unless ( $verb and ( $verb eq 'git-init' or $verb =~ $R_COMMANDS or $verb =~ $W_
+@@ -131,6 +131,9 @@ unless ( $verb and ( $verb eq 'git-init' or $verb =~ $R_COMMANDS or $verb =~ $W_
  die "$repo ends with a slash; I don't like that\n" if $repo =~ /\/$/;
  die "$repo has two consecutive periods; I don't like that\n" if $repo =~ /\.\./;
  
@@ -72,7 +72,7 @@ index 60f0e40..abdbc4a 100755
  $ENV{GL_REPO}=$repo;
  
 diff --git a/src/gl-compile-conf b/src/gl-compile-conf
-index 9799841..a266924 100755
+index 2f652ef..128b0f4 100755
 --- a/src/gl-compile-conf
 +++ b/src/gl-compile-conf
 @@ -34,6 +34,9 @@ open STDOUT, ">", "/dev/null" if (@ARGV and shift eq '-q');
@@ -85,9 +85,9 @@ index 9799841..a266924 100755
  # %repos has two functions.
  
  # $repos{repo}{R|W}{user} = 1 if user has R (or W) permissions for at least
-@@ -141,6 +144,13 @@ sub parse_conf_line
+@@ -145,6 +148,13 @@ sub parse_conf_line
          $groups{$1} = {} unless $groups{$1};
-         die "$ABRT bad group $1\n" unless $1 =~ $REPONAME_PATT;
+         die "$ABRT bad group '$1'\n" unless $1 =~ $REPONAME_PATT;
      }
 +    # mapping repo from A to B.
 +    # B should not start with double quote, or conflict with latter regex of gitweb description.
@@ -99,7 +99,7 @@ index 9799841..a266924 100755
      # repo(s)
      elsif ($line =~ /^repo (.*)/)
      {
-@@ -480,7 +490,10 @@ sub write_compiled_conf
+@@ -491,7 +501,10 @@ sub write_compiled_conf
      my $compiled_fh = wrap_open( ">", "$GL_CONF_COMPILED.new" );
      my $data_version = $current_data_version;
      print $compiled_fh Data::Dumper->Dump([$data_version], [qw(*data_version)]);
@@ -112,4 +112,4 @@ index 9799841..a266924 100755
      # the dump uses single quotes, but we convert any strings containing $creator
      # and $gl_user to double quoted strings.  A bit sneaky, but not too much...
 -- 
-tg: (59f3c4a..) t/repo_name_mapping (depends on: upstream)
+tg: (01e789a..) t/repo_name_mapping (depends on: upstream)

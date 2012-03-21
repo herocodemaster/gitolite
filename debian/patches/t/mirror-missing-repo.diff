@@ -1,0 +1,60 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] Mirror to slave even target repo is missing.
+
+Add new return value 'missing' in function mirror_mode(),
+and mirror process not failed if slaves report repo missing.
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
+
+---
+ src/gitolite.pm     |    2 ++
+ src/gl-mirror-shell |   13 ++++++++++++-
+ 2 个文件被修改，插入 14 行(+)，删除 1 行(-)
+
+diff --git a/src/gitolite.pm b/src/gitolite.pm
+index 062706f..12d772f 100644
+--- a/src/gitolite.pm
++++ b/src/gitolite.pm
+@@ -1254,6 +1254,8 @@ sub try_adc {
+ sub mirror_mode {
+     my $repo = shift;
+ 
++    # if repository not exist, set to 'missing'
++    return 'missing' if ! -d "$REPO_BASE/$repo.git";
+     # 'local' is the default if the config is empty or not set
+     my $gmm = `git config --file $REPO_BASE/$repo.git/config --get gitolite.mirror.master` || 'local';
+     chomp $gmm;
+diff --git a/src/gl-mirror-shell b/src/gl-mirror-shell
+index d2b6489..f3ddd56 100755
+--- a/src/gl-mirror-shell
++++ b/src/gl-mirror-shell
+@@ -33,6 +33,7 @@ use lib $ENV{GL_BINDIR};
+ use gitolite_rc;
+ use gitolite_env;
+ use gitolite;
++use gitolite qw(:DEFAULT %git_configs);
+ 
+ setup_environment();
+ die "fatal: GL_HOSTNAME not set in rc; mirroring disabled\n" unless $GL_HOSTNAME;
+@@ -114,8 +115,18 @@ if ($soc =~ /^git-receive-pack '(\S+)'$/) {
+     # is a server-to-server transaction, with an authenticated sender.
+     # Authorisation consists of checking to make sure our config says this
+     # sender is indeed the master for this repo
+-    die "$ABRT fatal: $GL_HOSTNAME <==//== $sender mirror-push rejected: $repo is $mm\n" unless $mm eq "slave of $sender";
++    die "$ABRT fatal: $GL_HOSTNAME <==//== $sender mirror-push rejected: $repo is $mm\n" unless $mm eq "slave of $sender" or $mm eq "missing";
+     print STDERR "$GL_HOSTNAME <=== ($repo) ==== $sender\n";
++    if ($mm eq "missing") {
++        wrap_chdir($REPO_BASE);
++        # check repo_rights, and bring necessary git_config from wild repo.
++        repo_rights($repo);
++        new_repo($repo, "$GL_ADMINDIR/hooks/common");
++        # note pwd is now the bare "repo.git"; new_repo does that...
++        setup_git_configs($repo, \%git_configs);
++        setup_daemon_access($repo);
++        wrap_chdir($ENV{HOME});
++    }
+ 
+     $ENV{GL_BYPASS_UPDATE_HOOK} = 1;
+     $ENV{GL_REPO} = $repo;
+-- 
+tg: (01e789a..) t/mirror-missing-repo (depends on: upstream)

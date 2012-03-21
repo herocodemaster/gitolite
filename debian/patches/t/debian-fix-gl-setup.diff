@@ -7,10 +7,10 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
 
 ---
  src/gl-setup |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ 1 个文件被修改，插入 1 行(+)，删除 1 行(-)
 
 diff --git a/src/gl-setup b/src/gl-setup
-index fd8357b..5b85789 100755
+index 7bf8881..fcb808f 100755
 --- a/src/gl-setup
 +++ b/src/gl-setup
 @@ -1,4 +1,4 @@
@@ -20,4 +20,4 @@ index fd8357b..5b85789 100755
  GL_PACKAGE_CONF=/tmp/share/gitolite/conf
  # must be the same as the value for the same variable in
 -- 
-tg: (59f3c4a..) t/debian-fix-gl-setup (depends on: upstream)
+tg: (01e789a..) t/debian-fix-gl-setup (depends on: upstream)
