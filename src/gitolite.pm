@@ -28,6 +28,7 @@ use Exporter 'import';
     slurp
     special_cmd
     try_adc
+    wrap_mkdir
     wrap_chdir
     wrap_open
     wrap_print
@@ -102,6 +103,17 @@ our %one_git_config;    # ditto for %git_configs
 #       convenience subs
 # ----------------------------------------------------------------------------
 
+sub wrap_mkdir
+{
+    # it's not an error if the directory exists, but it is an error if it
+    # doesn't exist and we can't create it
+    my $dir = shift;
+    my $perm = shift;       # optional
+    return if -d $dir;
+    mkdir($dir) or die "mkdir $dir failed: $!\n";
+    chmod $perm, $dir if $perm;
+}
+
 sub wrap_chdir {
     chdir($_[0]) or die "$ABRT chdir $_[0] failed: $! at ", (caller)[1], " line ", (caller)[2], "\n";
 }
@@ -120,6 +132,19 @@ sub wrap_print {
     my $oldmode = ( (stat $file)[2] );
     rename "$file.$$", $file;
     chmod $oldmode, $file if $oldmode;
+}
+
+sub wrap_system {
+    system(@_);
+
+    # straight from 'perldoc -f system' (sans the coredump part)
+    if ( $? == -1 ) {
+        print STDERR "failed to execute: $!\n";
+    } elsif ( $? & 127 ) {
+        printf STDERR "child died with signal %d\n", ( $? & 127 );
+    } else {
+        printf STDERR "child exited with value %d\n", $? >> 8;
+    }
 }
 
 sub slurp {
@@ -166,7 +191,9 @@ sub dos2unix {
 
 sub log_it {
     my ($ip, $logmsg);
-    open my $log_fh, ">>", $ENV{GL_LOG} or die "open log failed: $!\n";
+    open my $log_fh, ">>", $ENV{GL_LOG} or die
+        "open log failed: $!\n" .
+        "attempting to log: " . ( $_[0] || '(nothing)' ) . "\n";
     # first space sep field is client ip, per "man ssh"
     ($ip = $ENV{SSH_CONNECTION} || '(no-IP)') =~ s/ .*//;
     # the first part of logmsg is the actual command used; it's either passed
@@ -464,6 +491,7 @@ sub setup_git_configs
             next if $key =~ /^gitolite-options\./;
             if ($value ne "") {
                 $value =~ s/^['"](.*)["']$/$1/;
+                $value =~ s/%GL_REPO/$repo/;
                 system("git", "config", $key, $value);
             } else {
                 system("git", "config", "--unset-all", $key);
