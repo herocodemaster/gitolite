@@ -6,24 +6,21 @@ Use custom gitolite initial config file.
 Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
 
 ---
- conf/example.gitolite.rc |   18 ++++++++++++------
+ conf/example.gitolite.rc |   13 +++++++++----
  src/gl-setup             |   19 +++++++++++++++++--
- 2 个文件被修改，插入 29 行(+)，删除 8 行(-)
+ 2 个文件被修改，插入 26 行(+)，删除 6 行(-)
 
 diff --git a/conf/example.gitolite.rc b/conf/example.gitolite.rc
-index 9231436..9955e6d 100644
+index 9e3b39d..0cb9ee8 100644
 --- a/conf/example.gitolite.rc
 +++ b/conf/example.gitolite.rc
-@@ -44,19 +44,25 @@ $GL_NO_DAEMON_NO_GITWEB = 0;
+@@ -46,17 +46,22 @@ $GL_NO_DAEMON_NO_GITWEB = 0;
  # ------------------------------------------------------------------------------
  # $GL_ALL_READ_ALL = 0;
  $GIT_PATH="";
 -$GL_GITCONFIG_KEYS = "";
--# $GL_GITCONFIG_WILD = 0;
 +# Available git config settings for repo. Keys gitolite.mirror.* is used for repo mirror
-+$GL_GITCONFIG_KEYS = "gitolite.mirror.* core\\.logAllRefUpdates core\\..*compression hooks\\..* hooks\\..*";
-+# Warning user if set git config against wild repo.
-+$GL_GITCONFIG_WILD = 1;
++$GL_GITCONFIG_KEYS = "gitolite.mirror.* core\\.logAllRefUpdates core\\..*compression hooks\\..*";
  $GL_NO_CREATE_REPOS = 0;
  $GL_NO_SETUP_AUTHKEYS = 0;
  # $GL_WILDREPOS_DEFPERMS = 'R @all';
@@ -39,13 +36,11 @@ index 9231436..9955e6d 100644
 +# Admin defined command path
 +$GL_ADC_PATH = $ENV{HOME} . "/adc-bin";
  # $GL_GET_MEMBERSHIPS_PGM = "/usr/local/bin/expand-ldap-user-to-groups"
--# $GL_HTTP_ANON_USER = "mob";
 +# Unauthenticated HTTP users are actually authenticated as this user.
-+$GL_HTTP_ANON_USER = "mob";
+ # $GL_HTTP_ANON_USER = "mob";
+ # $GL_REF_OR_FILENAME_PATT=qr(^[0-9a-zA-Z][0-9a-zA-Z._\@/+ :,-]*$);
  
- # ------------------------------------------------------------------------------
- # less used/changed variables
-@@ -72,7 +78,7 @@ $GL_WILDREPOS_PERM_CATS = "READERS WRITERS";
+@@ -75,7 +80,7 @@ $GL_WILDREPOS_PERM_CATS = "READERS WRITERS";
  # rarely changed variables
  # ------------------------------------------------------------------------------
  $GL_LOGT="$GL_ADMINDIR/logs/gitolite-%y-%m.log";
@@ -55,7 +50,7 @@ index 9231436..9955e6d 100644
  # ------------------------------------------------------------------------------
  # variables that should NOT be changed after the install step completes
 diff --git a/src/gl-setup b/src/gl-setup
-index fd8357b..f2819e6 100755
+index 7bf8881..2eec11c 100755
 --- a/src/gl-setup
 +++ b/src/gl-setup
 @@ -111,11 +111,26 @@ gl-install -q
@@ -88,4 +83,4 @@ index fd8357b..f2819e6 100755
  }
  [ -n "$pubkey_file" ] && cp $pubkey_file $GL_ADMINDIR/keydir
 -- 
-tg: (39aeae1..) t/debian-initial-config (depends on: master)
+tg: (01e789a..) t/debian-initial-config (depends on: upstream)

@@ -11,7 +11,7 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
  1 个文件被修改，插入 2 行(+)，删除 2 行(-)
 
 diff --git a/src/gl-install b/src/gl-install
-index cd1702a..b742d7e 100755
+index de7aefd..2c1b6fc 100755
 --- a/src/gl-install
 +++ b/src/gl-install
 @@ -61,11 +61,11 @@ umask($REPO_UMASK);
@@ -21,7 +21,7 @@ index cd1702a..b742d7e 100755
 -wrap_mkdir($GL_ADMINDIR, 0700);
 +wrap_mkdir($GL_ADMINDIR, 0750);
  # mkdir $GL_ADMINDIR's subdirs
- for my $dir qw(conf doc keydir logs src hooks hooks/common hooks/gitolite-admin) {
+ for my $dir (qw(conf doc keydir logs src hooks hooks/common hooks/gitolite-admin)) {
      # some of them will stay empty; too lazy to fix right now ;-)
 -    wrap_mkdir("$GL_ADMINDIR/$dir", 0700);
 +    wrap_mkdir("$GL_ADMINDIR/$dir", 0750);
@@ -29,4 +29,4 @@ index cd1702a..b742d7e 100755
  
  # "src" and "doc" will be overwritten on each install, but not conf
 -- 
-tg: (39aeae1..) t/debian-fix-gl-admindir-perms (depends on: master)
+tg: (6857652..) t/debian-fix-gl-admindir-perms (depends on: upstream)

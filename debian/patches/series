@@ -1,4 +1,4 @@
-t/adc_extension.diff -p1
+t/adc-rm.diff -p1
 t/config_new_defaults.diff -p1
 t/creator_is_admin.diff -p1
 t/debian-fix-.ssh-permissions.diff -p1

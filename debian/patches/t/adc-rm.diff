@@ -1,5 +1,5 @@
 From: Jiang Xin <worldhello.net@gmail.com>
-Subject: [PATCH] t/adc_extension
+Subject: [PATCH] t/adc-rm
 
 When user del repo, move to repositories-sandbox, if exist
 
@@ -10,7 +10,7 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
  1 个文件被修改，插入 17 行(+)，删除 2 行(-)
 
 diff --git a/contrib/adc/rm b/contrib/adc/rm
-index 7223a6c..4d0b3b6 100755
+index 60c0bf7..fa7a4b9 100755
 --- a/contrib/adc/rm
 +++ b/contrib/adc/rm
 @@ -30,8 +30,23 @@ opt $ARE_YOU_SURE && {
@@ -37,7 +37,7 @@ index 7223a6c..4d0b3b6 100755
 +    echo "$repo is now GONE!"
 +fi
  
+ # gitweb specific; code for cgit users left as an exercise for the reader
  cd $HOME
- PROJECTS_LIST=$($GL_BINDIR/gl-query-rc PROJECTS_LIST)
 -- 
-tg: (39aeae1..) t/adc_extension (depends on: master)
+tg: (01e789a..) t/adc-rm (depends on: upstream)
