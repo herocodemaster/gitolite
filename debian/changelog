@@ -1,3 +1,9 @@
+gitolite (1:2.3-ossxp-8) unstable; urgency=low
+
+  * VREF support.
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Thu, 22 Mar 2012 04:58:03 +0800
+
 gitolite (1:2.3-ossxp-7.3) unstable; urgency=low
 
   * Set git uid and gid to 512.

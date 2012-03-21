@@ -10,10 +10,10 @@ Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
  1 个文件被修改，插入 2 行(+)，删除 2 行(-)
 
 diff --git a/conf/example.gitolite.rc b/conf/example.gitolite.rc
-index 9e3b39d..487d080 100644
+index 6ffaa87..cc347e1 100644
 --- a/conf/example.gitolite.rc
 +++ b/conf/example.gitolite.rc
-@@ -25,11 +25,11 @@ $GL_CONF_COMPILED="$GL_ADMINDIR/conf/gitolite.conf-compiled.pm";
+@@ -25,11 +25,11 @@ $GL_PACKAGE_HOOKS = "/tmp/share/gitolite/hooks";
  # ------------------------------------------------------------------------------
  # most often used/changed variables
  # ------------------------------------------------------------------------------
@@ -28,4 +28,4 @@ index 9e3b39d..487d080 100644
  # ------------------------------------------------------------------------------
  # variables with an efficiency/performance impact
 -- 
-tg: (01e789a..) t/config_new_defaults (depends on: upstream)
+tg: (d59bc35..) t/config_new_defaults (depends on: upstream)

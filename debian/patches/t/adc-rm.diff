@@ -40,4 +40,4 @@ index 60c0bf7..fa7a4b9 100755
  # gitweb specific; code for cgit users left as an exercise for the reader
  cd $HOME
 -- 
-tg: (01e789a..) t/adc-rm (depends on: upstream)
+tg: (d59bc35..) t/adc-rm (depends on: upstream)

@@ -12,10 +12,10 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
  2 个文件被修改，插入 14 行(+)，删除 1 行(-)
 
 diff --git a/src/gitolite.pm b/src/gitolite.pm
-index 062706f..12d772f 100644
+index fbae91d..c93eada 100644
 --- a/src/gitolite.pm
 +++ b/src/gitolite.pm
-@@ -1254,6 +1254,8 @@ sub try_adc {
+@@ -1282,6 +1282,8 @@ sub try_adc {
  sub mirror_mode {
      my $repo = shift;
  
@@ -25,7 +25,7 @@ index 062706f..12d772f 100644
      my $gmm = `git config --file $REPO_BASE/$repo.git/config --get gitolite.mirror.master` || 'local';
      chomp $gmm;
 diff --git a/src/gl-mirror-shell b/src/gl-mirror-shell
-index d2b6489..f3ddd56 100755
+index 80534dc..2d64057 100755
 --- a/src/gl-mirror-shell
 +++ b/src/gl-mirror-shell
 @@ -33,6 +33,7 @@ use lib $ENV{GL_BINDIR};
@@ -36,7 +36,7 @@ index d2b6489..f3ddd56 100755
  
  setup_environment();
  die "fatal: GL_HOSTNAME not set in rc; mirroring disabled\n" unless $GL_HOSTNAME;
-@@ -114,8 +115,18 @@ if ($soc =~ /^git-receive-pack '(\S+)'$/) {
+@@ -119,8 +120,18 @@ if ($soc =~ /^git-receive-pack '(\S+)'$/) {
      # is a server-to-server transaction, with an authenticated sender.
      # Authorisation consists of checking to make sure our config says this
      # sender is indeed the master for this repo
@@ -57,4 +57,4 @@ index d2b6489..f3ddd56 100755
      $ENV{GL_BYPASS_UPDATE_HOOK} = 1;
      $ENV{GL_REPO} = $repo;
 -- 
-tg: (01e789a..) t/mirror-missing-repo (depends on: upstream)
+tg: (d59bc35..) t/mirror-missing-repo (depends on: upstream)

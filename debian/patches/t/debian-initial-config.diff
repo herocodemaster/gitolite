@@ -7,11 +7,11 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
 
 ---
  conf/example.gitolite.rc |   13 +++++++++----
- src/gl-setup             |   19 +++++++++++++++++--
- 2 个文件被修改，插入 26 行(+)，删除 6 行(-)
+ src/gl-setup             |   18 ++++++++++++++++--
+ 2 个文件被修改，插入 25 行(+)，删除 6 行(-)
 
 diff --git a/conf/example.gitolite.rc b/conf/example.gitolite.rc
-index 9e3b39d..0cb9ee8 100644
+index 6ffaa87..3ae5eb4 100644
 --- a/conf/example.gitolite.rc
 +++ b/conf/example.gitolite.rc
 @@ -46,17 +46,22 @@ $GL_NO_DAEMON_NO_GITWEB = 0;
@@ -50,13 +50,13 @@ index 9e3b39d..0cb9ee8 100644
  # ------------------------------------------------------------------------------
  # variables that should NOT be changed after the install step completes
 diff --git a/src/gl-setup b/src/gl-setup
-index 7bf8881..2eec11c 100755
+index 1970d93..5075f3b 100755
 --- a/src/gl-setup
 +++ b/src/gl-setup
-@@ -111,11 +111,26 @@ gl-install -q
+@@ -162,11 +162,25 @@ gl-install -q
  
  [ -f $GL_ADMINDIR/conf/gitolite.conf ] || {
-     cat <<EOF | cut -c9- > $GL_ADMINDIR/conf/gitolite.conf
+     echo "
 +        @admin = $admin_name
 +
          repo    gitolite-admin
@@ -78,9 +78,8 @@ index 7bf8881..2eec11c 100755
 +                RWC   refs/tags/          = @all
 +                RW    master              = @all
 +                RW+CD refs/heads/u/USER/  = @all
-+
- EOF
+     " | cut -c9- > $GL_ADMINDIR/conf/gitolite.conf
  }
  [ -n "$pubkey_file" ] && cp $pubkey_file $GL_ADMINDIR/keydir
 -- 
-tg: (01e789a..) t/debian-initial-config (depends on: upstream)
+tg: (d59bc35..) t/debian-initial-config (depends on: upstream)

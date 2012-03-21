@@ -13,7 +13,7 @@ Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
  1 个文件被修改，插入 16 行(+)
 
 diff --git a/src/gl-compile-conf b/src/gl-compile-conf
-index 2f652ef..54866fb 100755
+index f497ae5..c375da1 100755
 --- a/src/gl-compile-conf
 +++ b/src/gl-compile-conf
 @@ -459,6 +459,16 @@ sub do_normal_repos
@@ -59,4 +59,4 @@ index 2f652ef..54866fb 100755
      }
      print $compiled_fh Data::Dumper->Dump([\%split_conf], [qw(*split_conf)]) if %split_conf;
 -- 
-tg: (01e789a..) t/escape_dollar_in_doublequotes (depends on: upstream)
+tg: (d59bc35..) t/escape_dollar_in_doublequotes (depends on: upstream)

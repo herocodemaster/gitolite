@@ -11,22 +11,22 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
  1 个文件被修改，插入 2 行(+)，删除 2 行(-)
 
 diff --git a/src/gl-install b/src/gl-install
-index de7aefd..2c1b6fc 100755
+index ac9e84e..31783f4 100755
 --- a/src/gl-install
 +++ b/src/gl-install
-@@ -61,11 +61,11 @@ umask($REPO_UMASK);
+@@ -26,11 +26,11 @@ setup_environment();
  
  # mkdir $REPO_BASE, $GL_ADMINDIR if they don't already exist
  wrap_mkdir($REPO_BASE);
--wrap_mkdir($GL_ADMINDIR, 0700);
-+wrap_mkdir($GL_ADMINDIR, 0750);
+-wrap_mkdir( $GL_ADMINDIR, 0700 );
++wrap_mkdir( $GL_ADMINDIR, 0750 );
+ 
  # mkdir $GL_ADMINDIR's subdirs
- for my $dir (qw(conf doc keydir logs src hooks hooks/common hooks/gitolite-admin)) {
-     # some of them will stay empty; too lazy to fix right now ;-)
--    wrap_mkdir("$GL_ADMINDIR/$dir", 0700);
-+    wrap_mkdir("$GL_ADMINDIR/$dir", 0750);
+ for my $dir (qw(conf keydir logs hooks hooks/common hooks/gitolite-admin)) {
+-    wrap_mkdir( "$GL_ADMINDIR/$dir", 0700 );
++    wrap_mkdir( "$GL_ADMINDIR/$dir", 0750 );
  }
  
- # "src" and "doc" will be overwritten on each install, but not conf
+ # hooks must be propagated to all the repos in case they changed
 -- 
-tg: (6857652..) t/debian-fix-gl-admindir-perms (depends on: upstream)
+tg: (d59bc35..) t/debian-fix-gl-admindir-perms (depends on: upstream)

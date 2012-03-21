@@ -12,7 +12,7 @@ Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
  3 个文件被修改，插入 38 行(+)，删除 1 行(-)
 
 diff --git a/src/gitolite.pm b/src/gitolite.pm
-index 062706f..610ac19 100644
+index fbae91d..80332fa 100644
 --- a/src/gitolite.pm
 +++ b/src/gitolite.pm
 @@ -14,6 +14,7 @@ use Exporter 'import';
@@ -23,7 +23,7 @@ index 062706f..610ac19 100644
      new_repo
      new_wild_repo
      repo_rights
-@@ -88,6 +89,7 @@ $GITWEB_URI_ESCAPE &&= eval "use CGI::Util qw(escape); 1";
+@@ -89,6 +90,7 @@ $GITWEB_URI_ESCAPE &&= eval "use CGI::Util qw(escape); 1";
  
  our %repos;
  our %groups;
@@ -31,7 +31,7 @@ index 062706f..610ac19 100644
  our %git_configs;
  our %split_conf;
  our $data_version;
-@@ -668,6 +670,25 @@ sub expand_wild
+@@ -696,6 +698,25 @@ sub expand_wild
  }
  
  # ----------------------------------------------------------------------------
@@ -72,7 +72,7 @@ index 851f614..6569de6 100755
  $ENV{GL_REPO}=$repo;
  
 diff --git a/src/gl-compile-conf b/src/gl-compile-conf
-index 2f652ef..128b0f4 100755
+index f497ae5..51c4cca 100755
 --- a/src/gl-compile-conf
 +++ b/src/gl-compile-conf
 @@ -34,6 +34,9 @@ open STDOUT, ">", "/dev/null" if (@ARGV and shift eq '-q');
@@ -112,4 +112,4 @@ index 2f652ef..128b0f4 100755
      # the dump uses single quotes, but we convert any strings containing $creator
      # and $gl_user to double quoted strings.  A bit sneaky, but not too much...
 -- 
-tg: (01e789a..) t/repo_name_mapping (depends on: upstream)
+tg: (d59bc35..) t/repo_name_mapping (depends on: upstream)

@@ -12,7 +12,7 @@ Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
  3 个文件被修改，插入 16 行(+)，删除 1 行(-)
 
 diff --git a/conf/example.gitolite.rc b/conf/example.gitolite.rc
-index 9e3b39d..b935190 100644
+index 6ffaa87..21e8ced 100644
 --- a/conf/example.gitolite.rc
 +++ b/conf/example.gitolite.rc
 @@ -83,6 +83,12 @@ $GL_LOGT="$GL_ADMINDIR/logs/gitolite-%y-%m.log";
@@ -62,4 +62,4 @@ index 851f614..45546ba 100755
  die "$aa access for $repo DENIED to $user
  (Or there may be no repository at the given path. Did you spell it correctly?)\n" unless $perm =~ /$aa/;
 -- 
-tg: (01e789a..) t/push_to_create (depends on: upstream)
+tg: (d59bc35..) t/push_to_create (depends on: upstream)
