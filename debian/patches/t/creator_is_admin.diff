@@ -11,7 +11,7 @@ Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
  2 个文件被修改，插入 16 行(+)，删除 3 行(-)
 
 diff --git a/hooks/common/update b/hooks/common/update
-index 1048208..0677bbd 100755
+index 1048208..3152ce3 100755
 --- a/hooks/common/update
 +++ b/hooks/common/update
 @@ -99,8 +99,16 @@ if (exists $repos{$ENV{GL_REPO}}{NAME_LIMITS}) {
@@ -20,12 +20,12 @@ index 1048208..0677bbd 100755
  # separately to capture it, then run the rest (if any)
 -my $log_refex = check_ref(\@allowed_refs, $ENV{GL_REPO}, (shift @refs), $att_acc);
 -check_ref                (\@allowed_refs, $ENV{GL_REPO}, $_           , $att_acc) for @refs;
-+my ($creatorid, $dummy, $dummy2) = wild_repo_rights($ENV{GL_REPO}, "");
++my ($creatorid, %dummy) = wild_repo_rights($ENV{GL_REPO}, "");
 +my $log_refex = '';
 +
 +# bypass check if user is creater. As when do check_ref, if no permission,
 +# exist (die) directly.
-+if ($ENV{GL_USER} ne $creatorid)
++if ($ENV{GL_USER} ne $creatorid and $creatorid ne "")
 +{
 +    $log_refex = check_ref(\@allowed_refs, $ENV{GL_REPO}, (shift @refs), $att_acc);
 +    check_ref                (\@allowed_refs, $ENV{GL_REPO}, $_           , $att_acc) for @refs;

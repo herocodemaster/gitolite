@@ -6,20 +6,22 @@ Push to create new repository, and not create by clone.
 Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
 
 ---
- conf/example.gitolite.rc |    4 ++++
+ conf/example.gitolite.rc |    6 ++++++
  src/gitolite_rc.pm       |    1 +
  src/gl-auth-command      |   10 +++++++++-
- 3 个文件被修改，插入 14 行(+)，删除 1 行(-)
+ 3 个文件被修改，插入 16 行(+)，删除 1 行(-)
 
 diff --git a/conf/example.gitolite.rc b/conf/example.gitolite.rc
-index 9e3b39d..45fd891 100644
+index 9e3b39d..b935190 100644
 --- a/conf/example.gitolite.rc
 +++ b/conf/example.gitolite.rc
-@@ -83,6 +83,10 @@ $GL_LOGT="$GL_ADMINDIR/logs/gitolite-%y-%m.log";
+@@ -83,6 +83,12 @@ $GL_LOGT="$GL_ADMINDIR/logs/gitolite-%y-%m.log";
  $REPO_BASE="repositories";
  
  # ------------------------------------------------------------------------------
-+# set to 1, clone will not create new repo.
++# Wild repo can be created by clone or by push. If set $GL_REPO_CREATE_BY_CLONE
++# to 1, create new repo by clone, or by push. Create by clone is convenient but
++# may create lots of unwanted repos by  trash repo by accident.
 +$GL_REPO_CREATE_BY_CLONE = 0;
 +
 +# ------------------------------------------------------------------------------
