@@ -9,7 +9,7 @@ use Exporter 'import';
 @EXPORT = qw(
     $ABRT $WARN
     $R_COMMANDS $W_COMMANDS
-    $REPONAME_PATT $USERNAME_PATT $REPOPATT_PATT
+    $REPONAME_PATT $USERNAME_PATT $REPOPATT_PATT $GL_REF_OR_FILENAME_PATT
     $ADC_CMD_ARGS_PATT
     $BIG_INFO_CAP
     $current_data_version
@@ -17,12 +17,14 @@ use Exporter 'import';
     $ADMIN_POST_UPDATE_CHAINS_TO $ENV $GITOLITE_BASE $GITOLITE_PATH $GIT_PATH
     $GL_ADC_PATH $GL_ADMINDIR $GL_ALL_INCLUDES_SPECIAL $GL_ALL_READ_ALL
     $GL_BIG_CONFIG $GL_CONF $GL_CONF_COMPILED $GL_GET_MEMBERSHIPS_PGM
-    $GL_GITCONFIG_KEYS $GL_GITCONFIG_WILD $GL_KEYDIR $GL_LOGT $GL_NICE_VALUE
+    $GL_GITCONFIG_KEYS $GL_KEYDIR $GL_LOGT $GL_NICE_VALUE
     $GL_NO_CREATE_REPOS $GL_NO_DAEMON_NO_GITWEB $GL_NO_SETUP_AUTHKEYS
     $GL_PACKAGE_CONF $GL_PACKAGE_HOOKS $GL_PERFLOGT $GL_SITE_INFO
     $GL_SLAVE_MODE $GL_WILDREPOS $GL_WILDREPOS_DEFPERMS
-    $GL_WILDREPOS_PERM_CATS $HTPASSWD_FILE $PROJECTS_LIST $REPO_BASE
-    $REPO_UMASK $RSYNC_BASE $SVNSERVE $UPDATE_CHAINS_TO
+    $GL_WILDREPOS_PERM_CATS $HTPASSWD_FILE $PROJECTS_LIST $WEB_INTERFACE
+    $GITWEB_URI_ESCAPE $REPO_BASE $REPO_UMASK $RSYNC_BASE $SVNSERVE
+    $UPDATE_CHAINS_TO $AUTH_OPTIONS
+    $GL_HOSTNAME
 
     $GL_HTTP_ANON_USER
 );
@@ -31,7 +33,7 @@ use Exporter 'import';
 #       real constants
 # ------------------------------------------------------------------------------
 
-$current_data_version = '1.7';
+$current_data_version = '2.0';
 
 $ABRT = "\n\t\t***** ABORTING *****\n       ";
 $WARN = "\n\t\t***** WARNING *****\n       ";
@@ -46,13 +48,18 @@ $W_COMMANDS=qr/^git[ -]receive-pack$/;
 $REPONAME_PATT=qr(^\@?[0-9a-zA-Z][0-9a-zA-Z._\@/+-]*$);
 $USERNAME_PATT=qr(^\@?[0-9a-zA-Z][0-9a-zA-Z._\@+-]*$);
 # same as REPONAME, but used for wildcard repos, allows some common regex metas
-$REPOPATT_PATT=qr(^\@?[0-9a-zA-Z[][\\^.$|()[\]*+?{}0-9a-zA-Z._\@/-]*$);
+$REPOPATT_PATT=qr(^\@?[0-9a-zA-Z[][\\^.$|()[\]*+?{}0-9a-zA-Z._\@/,-]*$);
+# pattern for refnames pushed or names of files changed
+$GL_REF_OR_FILENAME_PATT=qr(^[0-9a-zA-Z][0-9a-zA-Z._\@/+ :,-]*$);
 
 # ADC commands and arguments must match this pattern
 $ADC_CMD_ARGS_PATT=qr(^[0-9a-zA-Z._\@/+:-]*$);
 
 # maximum number of output lines from info under GL_BIG_CONFIG
 $BIG_INFO_CAP = 20;
+
+# default values for stuff that may be missing in the RC file
+$WEB_INTERFACE = 'gitweb';
 
 # ------------------------------------------------------------------------------
 #       bring in the rc vars and allow querying them
@@ -71,6 +78,11 @@ do $ENV{GL_RC} or die "error parsing $ENV{GL_RC}\n";
 
 # fix up REPO_BASE
 $REPO_BASE = "$ENV{HOME}/$REPO_BASE" unless $REPO_BASE =~ m(^/);
+
+# <sigh> backward incompat detection for mirroring.  Normally I wouldn't do
+# this but this is *important*
+die "$ABRT Mirroring has completely changed in this version.\tYou need to check the documentation for how to upgrade\n"
+    if (defined $GL_SLAVE_MODE or exists $ENV{GL_SLAVES});
 
 # ------------------------------------------------------------------------------
 # per perl rules, this should be the last line in such a file:
