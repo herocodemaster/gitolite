@@ -1,0 +1,6 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] t/adc-rm
+
+When user del repo, move to repositories-sandbox, if exist
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
