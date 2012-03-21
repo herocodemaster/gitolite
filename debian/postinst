@@ -49,20 +49,28 @@ if [ "x$version" = "x" ] || [ "$action" = "reconfigure" ]; then
 	# to initialize with
 	if [ -n "$ADMINKEY" ]; then
 
+		if ! getent group "$GITUSER" >/dev/null; then
+			addgroup --quiet --system --gid 512 "$GITUSER" || \
+			addgroup --quiet --system "$GITUSER"
+		fi
 		if ! getent passwd "$GITUSER" >/dev/null; then
+			adduser --quiet --uid 512 \
+				--system --home "$GITDIR" --shell /bin/bash \
+				--no-create-home --gecos 'git repository hosting' \
+				--ingroup "$GITUSER" "$GITUSER" || \
 			adduser --quiet --system --home "$GITDIR" --shell /bin/bash \
 				--no-create-home --gecos 'git repository hosting' \
-				--group "$GITUSER"
-
-			# $GITUSER can access ssh services
-			SSHGROUP=$(grep -i "^AllowGroup" /etc/ssh/sshd_config | awk '{print $2;}')
-			if [ -n "$SSHGROUP" ]; then
-				adduser $GITUSER $SSHGROUP
-			fi
-
-			# Gitweb: Apache user www-data can access repositories
-			adduser www-data $GITUSER
+				--ingroup "$GITUSER" "$GITUSER"
 		fi
+
+		# $GITUSER can access ssh services
+		SSHGROUP=$(grep -i "^AllowGroup" /etc/ssh/sshd_config | awk '{print $2;}')
+		if [ -n "$SSHGROUP" ]; then
+			adduser "$GITUSER" "$SSHGROUP"
+		fi
+
+		# Gitweb: Apache user www-data can access repositories
+		adduser www-data "$GITUSER"
 
 		if [ ! -r "$GITDIR/.gitolite.rc" ]; then
 			if [ ! -d "$GITDIR" ]; then
