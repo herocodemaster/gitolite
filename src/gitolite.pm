@@ -585,7 +585,9 @@ sub setup_gitweb_access
         system("git config --remove-section gitweb 2>/dev/null");
     }
 
-    return ($desc or can_read($repo, 'gitweb'));
+    # Since gitweb is configured with password or SSO auth,
+    # it's safe to broadcast repos in projects_list.
+    return ($desc or not $GL_NO_DAEMON_NO_GITWEB or can_read($repo, 'gitweb'));
         # this return value is used by the caller to write to projects.list
 }
 
