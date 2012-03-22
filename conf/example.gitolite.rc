@@ -47,7 +47,7 @@ $GL_NO_DAEMON_NO_GITWEB = 0;
 # $GL_ALL_READ_ALL = 0;
 $GIT_PATH="";
 # Available git config settings for repo. Keys gitolite.mirror.* is used for repo mirror
-$GL_GITCONFIG_KEYS = "gitolite.mirror.* core\\.logAllRefUpdates core\\..*compression hooks\\..*";
+$GL_GITCONFIG_KEYS = "core\\.logAllRefUpdates core\\..*compression gitolite\\..* hooks\\..*";
 $GL_NO_CREATE_REPOS = 0;
 $GL_NO_SETUP_AUTHKEYS = 0;
 # $GL_WILDREPOS_DEFPERMS = 'R @all';

@@ -166,6 +166,7 @@ gl-install -q
 
         repo    gitolite-admin
                 RW+     =   @admin
+                R       =   @all
 
         repo    users/CREATOR/[a-zA-Z].*
                 C   =  @all
