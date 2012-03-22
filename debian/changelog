@@ -1,6 +1,7 @@
-gitolite (1:2.3-ossxp-10) unstable; urgency=low
+gitolite (1:2.3-ossxp-10.1) unstable; urgency=low
 
   * Broadcast all repos in projects_list, since gitweb is authed.
+  * bugfix: wrong init config in gl_setup.
 
  -- Jiang Xin <worldhello.net@gmail.com>  Thu, 22 Mar 2012 15:38:06 +0800
 

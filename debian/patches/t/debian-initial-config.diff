@@ -50,7 +50,7 @@ index 6ffaa87..e1c9c95 100644
  # ------------------------------------------------------------------------------
  # variables that should NOT be changed after the install step completes
 diff --git a/src/gl-setup b/src/gl-setup
-index 1970d93..1bb93a7 100755
+index 1970d93..aeca6f7 100755
 --- a/src/gl-setup
 +++ b/src/gl-setup
 @@ -162,11 +162,29 @@ gl-install -q
@@ -71,7 +71,7 @@ index 1970d93..1bb93a7 100755
 +                R   =  READERS @admin
 +
 +        # repo description for testing repo on gitweb
-+        testing "admin" = "sandbox, everyone can push"
++        testing \"admin\" = \"sandbox, everyone can push\"
  
          repo    testing
 -                RW+     =   @all
