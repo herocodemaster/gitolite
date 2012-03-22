@@ -11,8 +11,8 @@ INSTALL_FILE    = $(INSTALL) -p    -oroot -groot -m644
 INSTALL_PROGRAM = $(INSTALL) -p    -oroot -groot -m755
 INSTALL_SCRIPT  = $(INSTALL) -p    -oroot -groot -m755
 INSTALL_DIR     = $(INSTALL) -p -d -oroot -groot -m755
-INSTALL_DIR_GIT = $(INSTALL) -p -d -ogit  -ggit  -m755
-INSTALL_FILE_GITX= $(INSTALL) -p    -ogit  -ggit  -m755
+INSTALL_DIR_GIT = $(INSTALL) -p -d -o512  -g512  -m755
+INSTALL_FILE_GIT= $(INSTALL) -p    -o512  -g512  -m755
 
 GL_VERSION = $(shell dpkg-parsechangelog | sed -n -e 's/^Version: \([0-9]\+:\)\?\(.*\)/\2 (Debian)/p')
 
@@ -51,7 +51,7 @@ install: patch conf/VERSION
 		$(TMP)/usr/share/doc/$(PKG)
 	$(INSTALL_FILE) conf/* \
 		$(TMP)/usr/share/$(PKG)/conf
-	$(INSTALL_FILE_GITX) debian/suexec/* \
+	$(INSTALL_FILE_GIT) debian/suexec/* \
 		$(TMP)/var/www/gitolite/
 	$(INSTALL_FILE) debian/apache2/* \
 		$(TMP)/etc/apache2/include/git/
@@ -67,6 +67,7 @@ install: patch conf/VERSION
 		$(INSTALL_SCRIPT) src/$$i $(TMP)/usr/share/$(PKG); \
 		done
 	chmod -x $(TMP)/usr/share/$(PKG)/gitolite.pm
+	cp -a contrib/VREF/* $(TMP)/usr/share/$(PKG)
 	cp -a contrib/* $(TMP)/usr/share/doc/$(PKG)/examples
 	$(INSTALL_SCRIPT) debian/gl-setup $(TMP)/usr/bin
 	gzip -9 $(TMP)/usr/share/doc/$(PKG)/changelog \
