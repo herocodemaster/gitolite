@@ -60,6 +60,8 @@ install: patch conf/VERSION
 	( cd $(TMP)/etc/apache2/include/git/sso; ln -s ../git-http-backend.conf . )
 	cp -a hooks/* \
 		$(TMP)/usr/share/$(PKG)/hooks
+	chmod 755 $(TMP)/usr/share/$(PKG)/hooks/common/post-receive
+	chmod 755 $(TMP)/usr/share/$(PKG)/hooks/common/post-receive-email
 	mv $(TMP)/usr/share/doc/$(PKG)/CHANGELOG \
 		$(TMP)/usr/share/doc/$(PKG)/changelog
 	rm $(TMP)/usr/share/doc/$(PKG)/COPYING

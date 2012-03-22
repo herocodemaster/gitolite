@@ -1,3 +1,9 @@
+gitolite (1:2.3-ossxp-9) unstable; urgency=low
+
+  * Bugfix: set filemode of new post-receive scripts to 755.
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Thu, 22 Mar 2012 04:58:03 +0800
+
 gitolite (1:2.3-ossxp-8.1) unstable; urgency=low
 
   * VREF support.
