@@ -7,11 +7,11 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
 
 ---
  conf/example.gitolite.rc |   13 +++++++++----
- src/gl-setup             |   18 ++++++++++++++++--
- 2 个文件被修改，插入 25 行(+)，删除 6 行(-)
+ src/gl-setup             |   22 ++++++++++++++++++++--
+ 2 个文件被修改，插入 29 行(+)，删除 6 行(-)
 
 diff --git a/conf/example.gitolite.rc b/conf/example.gitolite.rc
-index 6ffaa87..3ae5eb4 100644
+index 6ffaa87..e1c9c95 100644
 --- a/conf/example.gitolite.rc
 +++ b/conf/example.gitolite.rc
 @@ -46,17 +46,22 @@ $GL_NO_DAEMON_NO_GITWEB = 0;
@@ -20,7 +20,7 @@ index 6ffaa87..3ae5eb4 100644
  $GIT_PATH="";
 -$GL_GITCONFIG_KEYS = "";
 +# Available git config settings for repo. Keys gitolite.mirror.* is used for repo mirror
-+$GL_GITCONFIG_KEYS = "gitolite.mirror.* core\\.logAllRefUpdates core\\..*compression hooks\\..*";
++$GL_GITCONFIG_KEYS = "core\\.logAllRefUpdates core\\..*compression gitolite\\..* hooks\\..*";
  $GL_NO_CREATE_REPOS = 0;
  $GL_NO_SETUP_AUTHKEYS = 0;
  # $GL_WILDREPOS_DEFPERMS = 'R @all';
@@ -50,10 +50,10 @@ index 6ffaa87..3ae5eb4 100644
  # ------------------------------------------------------------------------------
  # variables that should NOT be changed after the install step completes
 diff --git a/src/gl-setup b/src/gl-setup
-index 1970d93..5075f3b 100755
+index 1970d93..1bb93a7 100755
 --- a/src/gl-setup
 +++ b/src/gl-setup
-@@ -162,11 +162,25 @@ gl-install -q
+@@ -162,11 +162,29 @@ gl-install -q
  
  [ -f $GL_ADMINDIR/conf/gitolite.conf ] || {
      echo "
@@ -62,12 +62,16 @@ index 1970d93..5075f3b 100755
          repo    gitolite-admin
 -                RW+     =   $admin_name
 +                RW+     =   @admin
++                R       =   @all
 +
 +        repo    users/CREATOR/[a-zA-Z].*
 +                C   =  @all
 +                RW+ =  CREATOR
 +                RW  =  WRITERS
 +                R   =  READERS @admin
++
++        # repo description for testing repo on gitweb
++        testing "admin" = "sandbox, everyone can push"
  
          repo    testing
 -                RW+     =   @all
