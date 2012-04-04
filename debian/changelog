@@ -1,3 +1,9 @@
+gitolite (1:2.3-ossxp-11) unstable; urgency=low
+
+  * Fix broken regex in package info.
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Wed, 04 Apr 2012 20:28:40 +0800
+
 gitolite (1:2.3-ossxp-10.1) unstable; urgency=low
 
   * Broadcast all repos in projects_list, since gitweb is authed.
