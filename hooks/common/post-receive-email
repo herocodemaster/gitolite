@@ -707,6 +707,21 @@ send_mail()
 LOGBEGIN="- Log -----------------------------------------------------------------"
 LOGEND="-----------------------------------------------------------------------"
 
+# post-receive-email trigger once, not send email from slave repo.
+die() { echo $0 "(post-receive-email):" "$@" >&2; exit 1; }
+get_rc_val() { $GL_BINDIR/gl-query-rc $1; }
+[ -z "$GL_BINDIR" ] && die GL_BINDIR not set
+slaves=`git config --get gitolite.mirror.slaves`
+if [ -n "$slaves" ]; then
+    hn=`get_rc_val GL_HOSTNAME`
+    for slave in $slaves; do
+        if [ "$hn" = "$slave" ]; then
+            echo >&2 "Disable post-receive-email for slave repo."
+            exit 0
+        fi
+    done
+fi
+
 # --- Config
 # Set GIT_DIR either from the working directory, or from the environment
 # variable.
