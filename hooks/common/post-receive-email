@@ -65,6 +65,8 @@
 #   Default is "--stat --summary --find-copies-harder". Add -p to those
 #   options to include a unified diff of changes in addition to the usual
 #   summary output.
+# hooks.emailunsetwarn
+#   Show warning message if email notify feature is not used.
 #
 # Notes
 # -----
@@ -159,7 +161,7 @@ prep_for_email()
 	esac
 
 	# Check if we've got anyone to send to
-	if [ -z "$recipients" ]; then
+	if [ -z "$recipients" ] && [ "$emailunsetwarn" != "false" ]; then
 		case "$refname_type" in
 			"annotated tag")
 				config_name="hooks.announcelist"
@@ -733,6 +735,7 @@ emailprefix=$(git config hooks.emailprefix || echo '[SCM] ')
 custom_showrev=$(git config hooks.showrev)
 maxlines=$(git config hooks.emailmaxlines)
 diffopts=$(git config hooks.diffopts)
+emailunsetwarn=$(git config hooks.emailunsetwarn)
 : ${diffopts:="--stat --summary --find-copies-harder"}
 
 # --- Main loop
