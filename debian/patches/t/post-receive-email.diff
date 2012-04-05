@@ -7,8 +7,8 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
 
 ---
  hooks/common/post-receive       |   14 +
- hooks/common/post-receive-email |  755 +++++++++++++++++++++++++++++++++++++++
- 2 个文件被修改，插入 769 行(+)
+ hooks/common/post-receive-email |  770 +++++++++++++++++++++++++++++++++++++++
+ 2 个文件被修改，插入 784 行(+)
 
 diff --git a/hooks/common/post-receive b/hooks/common/post-receive
 new file mode 100755
@@ -32,10 +32,10 @@ index 0000000..d937e7c
 +fi
 diff --git a/hooks/common/post-receive-email b/hooks/common/post-receive-email
 new file mode 100755
-index 0000000..0b25d3b
+index 0000000..5d48262
 --- /dev/null
 +++ b/hooks/common/post-receive-email
-@@ -0,0 +1,755 @@
+@@ -0,0 +1,770 @@
 +#!/bin/sh
 +#
 +# Copyright (c) 2007 Andy Parkins
@@ -744,6 +744,21 @@ index 0000000..0b25d3b
 +# --- Constants
 +LOGBEGIN="- Log -----------------------------------------------------------------"
 +LOGEND="-----------------------------------------------------------------------"
++
++# post-receive-email trigger once, not send email from slave repo.
++die() { echo $0 "(post-receive-email):" "$@" >&2; exit 1; }
++get_rc_val() { $GL_BINDIR/gl-query-rc $1; }
++[ -z "$GL_BINDIR" ] && die GL_BINDIR not set
++slaves=`git config --get gitolite.mirror.slaves`
++if [ -n "$slaves" ]; then
++    hn=`get_rc_val GL_HOSTNAME`
++    for slave in $slaves; do
++        if [ "$hn" = "$slave" ]; then
++            echo >&2 "Disable post-receive-email for slave repo."
++            exit 0
++        fi
++    done
++fi
 +
 +# --- Config
 +# Set GIT_DIR either from the working directory, or from the environment
