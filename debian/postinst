@@ -29,6 +29,15 @@ if [ "${DEBCONF_RECONFIGURE}" = "1" ]; then
 	action=reconfigure
 fi
 
+# New install or upgrade from old version
+if dpkg --compare-versions "$version" lt "1:2.3-ossxp-12"; then
+    # Do not add default prefix [SCM] in notify email, as mailing list alway provides one.
+    git config --system hooks.emailprefix ""
+    # max lines in email.
+    git config --system hooks.emailmaxlines 200
+    # Disable warning if email_notify not set.
+    git config --system hooks.emailunsetwarn false
+fi
 
 # only on new install or reconfigure
 if [ "x$version" = "x" ] || [ "$action" = "reconfigure" ]; then

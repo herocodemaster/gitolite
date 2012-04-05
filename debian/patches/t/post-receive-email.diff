@@ -7,8 +7,8 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
 
 ---
  hooks/common/post-receive       |   14 +
- hooks/common/post-receive-email |  752 +++++++++++++++++++++++++++++++++++++++
- 2 个文件被修改，插入 766 行(+)
+ hooks/common/post-receive-email |  755 +++++++++++++++++++++++++++++++++++++++
+ 2 个文件被修改，插入 769 行(+)
 
 diff --git a/hooks/common/post-receive b/hooks/common/post-receive
 new file mode 100755
@@ -32,10 +32,10 @@ index 0000000..d937e7c
 +fi
 diff --git a/hooks/common/post-receive-email b/hooks/common/post-receive-email
 new file mode 100755
-index 0000000..0df6b7e
+index 0000000..0b25d3b
 --- /dev/null
 +++ b/hooks/common/post-receive-email
-@@ -0,0 +1,752 @@
+@@ -0,0 +1,755 @@
 +#!/bin/sh
 +#
 +# Copyright (c) 2007 Andy Parkins
@@ -103,6 +103,8 @@ index 0000000..0df6b7e
 +#   Default is "--stat --summary --find-copies-harder". Add -p to those
 +#   options to include a unified diff of changes in addition to the usual
 +#   summary output.
++# hooks.emailunsetwarn
++#   Show warning message if email notify feature is not used.
 +#
 +# Notes
 +# -----
@@ -197,7 +199,7 @@ index 0000000..0df6b7e
 +	esac
 +
 +	# Check if we've got anyone to send to
-+	if [ -z "$recipients" ]; then
++	if [ -z "$recipients" ] && [ "$emailunsetwarn" != "false" ]; then
 +		case "$refname_type" in
 +			"annotated tag")
 +				config_name="hooks.announcelist"
@@ -771,6 +773,7 @@ index 0000000..0df6b7e
 +custom_showrev=$(git config hooks.showrev)
 +maxlines=$(git config hooks.emailmaxlines)
 +diffopts=$(git config hooks.diffopts)
++emailunsetwarn=$(git config hooks.emailunsetwarn)
 +: ${diffopts:="--stat --summary --find-copies-harder"}
 +
 +# --- Main loop
