@@ -1,0 +1,8 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] GitHub alike site publish method
+
+If branch html-pub pushed to the server, and it contains
+a file 'LOCATION', then checkout branch html-pub to
+LOCATION.
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
