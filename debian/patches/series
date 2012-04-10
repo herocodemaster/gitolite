@@ -11,6 +11,7 @@ t/gitweb_projects_list.diff -p1
 t/mirror-missing-repo.diff -p1
 t/mirror_switch.diff -p1
 t/post-receive-email.diff -p1
+t/post-update.diff -p1
 t/push_to_create.diff -p1
 t/repo_name_mapping.diff -p1
 t/wildrepo_detect.diff -p1

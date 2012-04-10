@@ -1,3 +1,9 @@
+gitolite (1:2.3-ossxp-15) unstable; urgency=low
+
+  * New github-alike hooks: post-update.
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Thu, 05 Apr 2012 14:33:07 +0800
+
 gitolite (1:2.3-ossxp-13) unstable; urgency=low
 
   * Do not send notify email on slave repo.

@@ -1,0 +1,50 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] GitHub alike site publish method
+
+If branch html-pub pushed to the server, and it contains
+a file 'LOCATION', then checkout branch html-pub to
+LOCATION.
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
+
+---
+ hooks/common/post-update |   29 +++++++++++++++++++++++++++++
+ 1 个文件被修改，插入 29 行(+)
+
+diff --git a/hooks/common/post-update b/hooks/common/post-update
+new file mode 100755
+index 0000000..4e41206
+--- /dev/null
++++ b/hooks/common/post-update
+@@ -0,0 +1,29 @@
++#!/bin/sh
++#
++# An example hook script to prepare a packed repository for use over
++# dumb transports.
++#
++# To enable this hook, rename this file to "post-update".
++
++dumb=$(git config --bool hooks.update-server-info || echo "false")
++if [ "$dumb" = "true" ]; then
++    git update-server-info
++fi
++
++BRANCH=refs/heads/html-pub
++LOCATION=.LOCATION
++LOCATION2=LOCATION
++
++while [ $# -gt 0 ]; do
++    if [ "$1" = "$BRANCH" ]; then
++        target=$(git show $BRANCH:$LOCATION 2>/dev/null || git show $BRANCH:$LOCATION2 2>/dev/null || echo "")
++        if [ -n "$target" ]; then
++            mkdir -p $target
++            echo >&2 "checkout to $target..."
++            git --work-tree="$target" reset --hard $BRANCH
++        else
++            echo >&2 "File '$LOCATION' not found in branch '${BRANCH##*/}'."
++        fi
++    fi
++    shift
++done
+-- 
+tg: (d59bc35..) t/post-update (depends on: upstream)

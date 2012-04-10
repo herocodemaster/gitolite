@@ -62,6 +62,7 @@ install: patch conf/VERSION
 		$(TMP)/usr/share/$(PKG)/hooks
 	chmod 755 $(TMP)/usr/share/$(PKG)/hooks/common/post-receive
 	chmod 755 $(TMP)/usr/share/$(PKG)/hooks/common/post-receive-email
+	chmod 755 $(TMP)/usr/share/$(PKG)/hooks/common/post-update
 	mv $(TMP)/usr/share/doc/$(PKG)/CHANGELOG \
 		$(TMP)/usr/share/doc/$(PKG)/changelog
 	rm $(TMP)/usr/share/doc/$(PKG)/COPYING
