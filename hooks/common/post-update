@@ -5,36 +5,25 @@
 #
 # To enable this hook, rename this file to "post-update".
 
-exec git update-server-info
-
-#!/bin/sh
-#
-# An example hook script to prepare a packed repository for use over
-# dumb transports.
-#
-# To enable this hook, rename this file to "post-update".
-
 dumb=$(git config --bool hooks.update-server-info || echo "false")
 if [ "$dumb" = "true" ]; then
     git update-server-info
 fi
 
 BRANCH=refs/heads/html-pub
-LOCATION=LOCATION
+LOCATION=.LOCATION
+LOCATION2=LOCATION
 
 while [ $# -gt 0 ]; do
     if [ "$1" = "$BRANCH" ]; then
-        target=$(git show $BRANCH:$LOCATION 2>/dev/null || echo "")
+        target=$(git show $BRANCH:$LOCATION 2>/dev/null || git show $BRANCH:$LOCATION2 2>/dev/null || echo "")
         if [ -n "$target" ]; then
-            echo >&2 mkdir -p $target
             mkdir -p $target
-            echo >&2 git --work-tree="$target" checkout $BRANCH .
-            git --work-tree="$target" checkout $BRANCH .
+            echo >&2 "checkout to $target..."
+            git --work-tree="$target" reset --hard $BRANCH
         else
-            echo >&2 "File '$LOCATION' not found in branch '$BRANCH'."
+            echo >&2 "File '$LOCATION' not found in branch '${BRANCH##*/}'."
         fi
-    else
-        echo >&2 "branch $1 is not $BRANCH"
     fi
     shift
 done
