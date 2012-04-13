@@ -587,7 +587,7 @@ sub setup_gitweb_access
 
     # Since gitweb is configured with password or SSO auth,
     # it's safe to broadcast repos in projects_list.
-    return ($desc or not $GL_NO_DAEMON_NO_GITWEB or can_read($repo, 'gitweb'));
+    return (can_read($repo, 'gitweb') or $desc or not $GL_NO_DAEMON_NO_GITWEB);
         # this return value is used by the caller to write to projects.list
 }
 
