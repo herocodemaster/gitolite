@@ -123,4 +123,8 @@ if [ "x$version" = "x" ] || [ "$action" = "reconfigure" ]; then
 
 fi
 
+if dpkg --compare-versions "$2" lt-nl "1:2.3-ossxp-17"; then
+    /opt/ossxp/bin/ossxp_pkgadmin.py change
+fi
+
 exit 0
