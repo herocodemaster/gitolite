@@ -23,4 +23,4 @@ index 1970d93..e02dd37 100755
      touch .ssh/authorized_keys
      chmod go-w . .ssh .ssh/authorized_keys
 -- 
-tg: (d59bc35..) t/debian-fix-.ssh-permissions (depends on: upstream)
+tg: (f73e3d7..) t/debian-fix-.ssh-permissions (depends on: upstream)

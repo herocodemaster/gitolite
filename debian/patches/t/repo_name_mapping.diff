@@ -12,7 +12,7 @@ Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
  3 个文件被修改，插入 38 行(+)，删除 1 行(-)
 
 diff --git a/src/gitolite.pm b/src/gitolite.pm
-index fbae91d..80332fa 100644
+index 132bdbe..0954276 100644
 --- a/src/gitolite.pm
 +++ b/src/gitolite.pm
 @@ -14,6 +14,7 @@ use Exporter 'import';
@@ -112,4 +112,4 @@ index f497ae5..51c4cca 100755
      # the dump uses single quotes, but we convert any strings containing $creator
      # and $gl_user to double quoted strings.  A bit sneaky, but not too much...
 -- 
-tg: (d59bc35..) t/repo_name_mapping (depends on: upstream)
+tg: (f73e3d7..) t/repo_name_mapping (depends on: upstream)

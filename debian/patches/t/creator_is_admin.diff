@@ -41,7 +41,7 @@ index f31f108..0f193c5 100755
  # then we check all virtual refs
  check_vrefs(\@allowed_refs, $ENV{GL_REPO}, $att_acc);
 diff --git a/src/gitolite.pm b/src/gitolite.pm
-index fbae91d..702f4bc 100644
+index 132bdbe..26dcdf3 100644
 --- a/src/gitolite.pm
 +++ b/src/gitolite.pm
 @@ -27,6 +27,7 @@ use Exporter 'import';
@@ -73,4 +73,4 @@ index fbae91d..702f4bc 100644
              # copy of the ACL that parse_acl makes
              delete $repos{$repo} if $perm !~ /C/ and $wild;
 -- 
-tg: (d59bc35..) t/creator_is_admin (depends on: upstream)
+tg: (f73e3d7..) t/creator_is_admin (depends on: upstream)

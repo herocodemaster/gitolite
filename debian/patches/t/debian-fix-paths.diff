@@ -38,4 +38,4 @@ index 1970d93..fd1edb8 100755
  # $GL_PACKAGE_CONF/example.gitolite.rc.  Sorry about the catch-22 :)
  
 -- 
-tg: (d59bc35..) t/debian-fix-paths (depends on: upstream)
+tg: (f73e3d7..) t/debian-fix-paths (depends on: upstream)

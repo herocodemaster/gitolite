@@ -29,4 +29,4 @@ index ac9e84e..31783f4 100755
  
  # hooks must be propagated to all the repos in case they changed
 -- 
-tg: (d59bc35..) t/debian-fix-gl-admindir-perms (depends on: upstream)
+tg: (f73e3d7..) t/debian-fix-gl-admindir-perms (depends on: upstream)

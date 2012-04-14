@@ -8,43 +8,48 @@ LOCATION.
 Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
 
 ---
- hooks/common/post-update |   29 +++++++++++++++++++++++++++++
- 1 个文件被修改，插入 29 行(+)
+ hooks/common/post-update |   34 ++++++++++++++++++++++++++++++++++
+ 1 个文件被修改，插入 34 行(+)
 
 diff --git a/hooks/common/post-update b/hooks/common/post-update
 new file mode 100755
-index 0000000..4e41206
+index 0000000..7774a68
 --- /dev/null
 +++ b/hooks/common/post-update
-@@ -0,0 +1,29 @@
+@@ -0,0 +1,34 @@
 +#!/bin/sh
 +#
-+# An example hook script to prepare a packed repository for use over
-+# dumb transports.
++# Publish contents in html-pub branche to deply directory,
++# just like gh-pages branch as to GitHub.
 +#
 +# To enable this hook, rename this file to "post-update".
 +
++# Do git-update-server-info for git dumb protocol.
 +dumb=$(git config --bool hooks.update-server-info || echo "false")
 +if [ "$dumb" = "true" ]; then
 +    git update-server-info
 +fi
 +
-+BRANCH=refs/heads/html-pub
 +LOCATION=.LOCATION
-+LOCATION2=LOCATION
++DEPLOY=/var/lib/gitolite/deploy
 +
 +while [ $# -gt 0 ]; do
-+    if [ "$1" = "$BRANCH" ]; then
-+        target=$(git show $BRANCH:$LOCATION 2>/dev/null || git show $BRANCH:$LOCATION2 2>/dev/null || echo "")
++    case "${1#refs/heads/}" in
++    html-pub)
++        target=$(git show $1:$LOCATION 2>/dev/null || echo "")
 +        if [ -n "$target" ]; then
-+            mkdir -p $target
++            target=${target#/}
++            target=$DEPLOY/$target
++            mkdir -p "$target"
 +            echo >&2 "checkout to $target..."
-+            git --work-tree="$target" reset --hard $BRANCH
++            git --work-tree="$target" reset --hard $1
 +        else
-+            echo >&2 "File '$LOCATION' not found in branch '${BRANCH##*/}'."
++            echo >&2 "File '$LOCATION' not found in branch '${1#refs/heads/}'."
 +        fi
-+    fi
++        break
++        ;;
++    esac
 +    shift
 +done
 -- 
-tg: (d59bc35..) t/post-update (depends on: upstream)
+tg: (f73e3d7..) t/post-update (depends on: upstream)

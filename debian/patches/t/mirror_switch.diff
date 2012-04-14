@@ -26,4 +26,4 @@ index 4b31741..cba8b8a 100755
 +fi >&2
  $GL_BINDIR/gl-mirror-push $GL_REPO $slaves
 -- 
-tg: (d59bc35..) t/mirror_switch (depends on: upstream)
+tg: (f73e3d7..) t/mirror_switch (depends on: upstream)

@@ -10,19 +10,19 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
  1 个文件被修改，插入 3 行(+)，删除 1 行(-)
 
 diff --git a/src/gitolite.pm b/src/gitolite.pm
-index fbae91d..09b817a 100644
+index 132bdbe..de508e0 100644
 --- a/src/gitolite.pm
 +++ b/src/gitolite.pm
 @@ -585,7 +585,9 @@ sub setup_gitweb_access
          system("git config --remove-section gitweb 2>/dev/null");
      }
  
--    return ($desc or can_read($repo, 'gitweb'));
+-    return (can_read($repo, 'gitweb') or $desc);
 +    # Since gitweb is configured with password or SSO auth,
 +    # it's safe to broadcast repos in projects_list.
-+    return ($desc or not $GL_NO_DAEMON_NO_GITWEB or can_read($repo, 'gitweb'));
++    return (can_read($repo, 'gitweb') or $desc or not $GL_NO_DAEMON_NO_GITWEB);
          # this return value is used by the caller to write to projects.list
  }
  
 -- 
-tg: (d59bc35..) t/gitweb_projects_list (depends on: upstream)
+tg: (f73e3d7..) t/gitweb_projects_list (depends on: upstream)

@@ -20,4 +20,4 @@ index 1970d93..5a7b1ee 100755
  GL_PACKAGE_CONF=/tmp/share/gitolite/conf
  # must be the same as the value for the same variable in
 -- 
-tg: (d59bc35..) t/debian-fix-gl-setup (depends on: upstream)
+tg: (f73e3d7..) t/debian-fix-gl-setup (depends on: upstream)

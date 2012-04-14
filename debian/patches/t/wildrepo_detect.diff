@@ -37,4 +37,4 @@ index f497ae5..30ab732 100755
          unless ($GL_NO_CREATE_REPOS) {
              unless (-d "$repo.git") {
 -- 
-tg: (d59bc35..) t/wildrepo_detect (depends on: upstream)
+tg: (f73e3d7..) t/wildrepo_detect (depends on: upstream)

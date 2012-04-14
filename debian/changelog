@@ -1,3 +1,9 @@
+gitolite (1:2.3-ossxp-16) unstable; urgency=low
+
+  * Contents in html-pub branch deploy to a fixed path.
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Sat, 14 Apr 2012 08:14:32 +0800
+
 gitolite (1:2.3-ossxp-15) unstable; urgency=low
 
   * New github-alike hooks: post-update.

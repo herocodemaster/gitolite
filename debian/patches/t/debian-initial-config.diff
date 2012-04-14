@@ -86,4 +86,4 @@ index 1970d93..aeca6f7 100755
  }
  [ -n "$pubkey_file" ] && cp $pubkey_file $GL_ADMINDIR/keydir
 -- 
-tg: (d59bc35..) t/debian-initial-config (depends on: upstream)
+tg: (f73e3d7..) t/debian-initial-config (depends on: upstream)

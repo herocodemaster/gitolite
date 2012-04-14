@@ -12,7 +12,7 @@ Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
  2 个文件被修改，插入 14 行(+)，删除 1 行(-)
 
 diff --git a/src/gitolite.pm b/src/gitolite.pm
-index fbae91d..c93eada 100644
+index 132bdbe..e4c162e 100644
 --- a/src/gitolite.pm
 +++ b/src/gitolite.pm
 @@ -1282,6 +1282,8 @@ sub try_adc {
@@ -57,4 +57,4 @@ index 80534dc..2d64057 100755
      $ENV{GL_BYPASS_UPDATE_HOOK} = 1;
      $ENV{GL_REPO} = $repo;
 -- 
-tg: (d59bc35..) t/mirror-missing-repo (depends on: upstream)
+tg: (f73e3d7..) t/mirror-missing-repo (depends on: upstream)
