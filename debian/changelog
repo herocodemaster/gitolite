@@ -1,3 +1,10 @@
+gitolite (1:2.3-ossxp-18) unstable; urgency=low
+
+  * Fixed serious bug cause normal repo bypass auth check,
+    and this bug bring in on 2012/3/22.
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Mon, 18 Apr 2012 05:24:06 +0800
+
 gitolite (1:2.3-ossxp-17) unstable; urgency=low
 
   * Add conffiles.

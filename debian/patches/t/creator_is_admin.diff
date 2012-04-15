@@ -6,15 +6,15 @@ Creator has full rights.
 Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
 
 ---
- hooks/common/update |   19 ++++++++++++++++---
+ hooks/common/update |   22 +++++++++++++++++++---
  src/gitolite.pm     |    7 ++++++-
- 2 个文件被修改，插入 22 行(+)，删除 4 行(-)
+ 2 个文件被修改，插入 25 行(+)，删除 4 行(-)
 
 diff --git a/hooks/common/update b/hooks/common/update
-index f31f108..0f193c5 100755
+index f31f108..dbe8880 100755
 --- a/hooks/common/update
 +++ b/hooks/common/update
-@@ -75,9 +75,22 @@ push @allowed_refs, @ { $repos{'@all'}       {$ENV{GL_USER}} || [] };
+@@ -75,9 +75,25 @@ push @allowed_refs, @ { $repos{'@all'}       {$ENV{GL_USER}} || [] };
  push @allowed_refs, @ { $repos{$ENV{GL_REPO}}{'@all'} || [] };
  push @allowed_refs, @ { $repos{'@all'}       {'@all'} || [] };
  
@@ -31,7 +31,10 @@ index f31f108..0f193c5 100755
 +
 +# bypass auth check of *real* ref if user is creater.
 +# As when do check_ref, if no permission, exist (die) directly.
-+if ($ENV{GL_USER} ne $creatorid and $creatorid ne "")
++#
++# Always check if repo is a normal repo ($creatorid eq ''), or a repo created
++# by current user.
++if ($ENV{GL_USER} ne $creatorid or $creatorid eq "")
 +{
 +    # first check the main ref (this is a *real* ref, like refs/heads/master, and
 +    # is what we print in the log)
