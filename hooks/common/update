@@ -85,7 +85,10 @@ my ($creatorid, %dummy) = wild_repo_rights($ENV{GL_REPO}, "");
 
 # bypass auth check of *real* ref if user is creater.
 # As when do check_ref, if no permission, exist (die) directly.
-if ($ENV{GL_USER} ne $creatorid and $creatorid ne "")
+#
+# Always check if repo is a normal repo ($creatorid eq ''), or a repo created
+# by current user.
+if ($ENV{GL_USER} ne $creatorid or $creatorid eq "")
 {
     # first check the main ref (this is a *real* ref, like refs/heads/master, and
     # is what we print in the log)
