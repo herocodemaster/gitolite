@@ -17,7 +17,7 @@ DEPLOY=/var/lib/gitolite/deploy
 while [ $# -gt 0 ]; do
     case "${1#refs/heads/}" in
     html-pub)
-        target=$(git show $1:$LOCATION 2>/dev/null || echo "")
+        target=$(git show $1:$LOCATION 2>/dev/null || echo "$GL_REPO")
         if [ -n "$target" ]; then
             target=${target#/}
             target=$DEPLOY/$target
