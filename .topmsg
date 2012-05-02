@@ -1,6 +1,8 @@
-From: Jiang Xin <jiangxin@ossxp.com>
-Subject: [PATCH] t/push_to_create
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] map email alike pubkey to user
 
-Push to create new repository, and not create by clone.
+Instead of mapping email alike pubkey to email, map it as user.
 
-Signed-off-by: Jiang Xin <jiangxin@ossxp.com>
+For example: baz@example.com maps to user baz.
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
