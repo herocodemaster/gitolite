@@ -1,0 +1,61 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] map email alike pubkey to user
+
+Instead of mapping email alike pubkey to email, map it as user.
+
+For example: baz@example.com maps to user baz.
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
+
+---
+ conf/example.gitolite.rc |    4 ++++
+ src/gitolite.pm          |    6 +++++-
+ src/gitolite_rc.pm       |    1 +
+ 3 个文件被修改，插入 10 行(+)，删除 1 行(-)
+
+diff --git a/conf/example.gitolite.rc b/conf/example.gitolite.rc
+index 21e8ced..0182c53 100644
+--- a/conf/example.gitolite.rc
++++ b/conf/example.gitolite.rc
+@@ -89,6 +89,10 @@ $REPO_BASE="repositories";
+ $GL_REPO_CREATE_BY_CLONE = 0;
+ 
+ # ------------------------------------------------------------------------------
++# set to 1, email alike pubkey, like baz@example.com.pub will map to baz.
++$GL_EMAIL_ALIKE_PUBKEY_MAPUSER = 1;
++
++# ------------------------------------------------------------------------------
+ # DO NOT TOUCH ANY THING AFTER THIS LINE
+ # ------------------------------------------------------------------------------
+ 
+diff --git a/src/gitolite.pm b/src/gitolite.pm
+index 132bdbe..f46fc87 100644
+--- a/src/gitolite.pm
++++ b/src/gitolite.pm
+@@ -1120,7 +1120,11 @@ sub setup_authkeys
+ 
+         my $user = $pubkey;
+         $user =~ s(.*/)();                  # foo/bar/baz.pub -> baz.pub
+-        $user =~ s/(\@[^.]+)?\.pub$//;      # baz.pub, baz@home.pub -> baz
++        if ($GL_EMAIL_ALIKE_PUBKEY_MAPUSER) {
++            $user =~ s/(\@.+)?\.pub$//;     # baz.pub, baz@home.pub, baz@example.com.pub -> baz
++        } else {
++            $user =~ s/(\@[^.]+)?\.pub$//;  # baz.pub, baz@home.pub -> baz
++        }
+ 
+         # lint check 2 -- don't print right now; just collect the messages
+         push @not_in_config, "$user($pubkey)" if %$user_list_p and not $user_list_p->{$user};
+diff --git a/src/gitolite_rc.pm b/src/gitolite_rc.pm
+index 3c67115..4f938e2 100644
+--- a/src/gitolite_rc.pm
++++ b/src/gitolite_rc.pm
+@@ -26,6 +26,7 @@ use Exporter 'import';
+     $UPDATE_CHAINS_TO $AUTH_OPTIONS
+     $GL_HOSTNAME
+     $GL_REPO_CREATE_BY_CLONE
++    $GL_EMAIL_ALIKE_PUBKEY_MAPUSER
+ 
+     $GL_HTTP_ANON_USER
+ );
+-- 
+tg: (2cbc957..) t/pubkey_mapuser_hack (depends on: t/push_to_create)

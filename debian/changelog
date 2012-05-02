@@ -1,3 +1,10 @@
+gitolite (1:2.3-ossxp-19) unstable; urgency=low
+
+  * New patch: email alike pubkey map to normal user.
+  * Set $GL_REPO as default deploy path.
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Thu, 03 May 2012 02:19:44 +0800
+
 gitolite (1:2.3-ossxp-18) unstable; urgency=low
 
   * Fixed serious bug cause normal repo bypass auth check,
