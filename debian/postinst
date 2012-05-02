@@ -127,6 +127,43 @@ if dpkg --compare-versions "$2" lt-nl "1:2.3-ossxp-17"; then
     /opt/ossxp/bin/ossxp_pkgadmin.py --yes change
 fi
 
+# update RC file
+db_get gitolite/gitdir
+GITDIR="${RET:-/var/lib/gitolite}"
+RCFILE=$GITDIR/.gitolite.rc
+if [ -n "$GITDIR" ] && [ -e $RCFILE ]; then
+
+    if ! grep -q "GL_REPO_CREATE_BY_CLONE" $RCFILE; then
+        sed --in-place -e '/^\$REPO_BASE=/ {
+a \
+
+a \
+# ------------------------------------------------------------------------------
+a \
+# Wild repo can be created by clone or by push. If set $GL_REPO_CREATE_BY_CLONE
+a \
+# to 1, create new repo by clone, or by push. Create by clone is convenient but
+a \
+# may create lots of unwanted repos by  trash repo by accident.
+a \
+$GL_REPO_CREATE_BY_CLONE = 0;
+            }' $RCFILE
+    fi
+
+    if ! grep -q "GL_EMAIL_ALIKE_PUBKEY_MAPUSER" $RCFILE; then
+        sed --in-place -e '/^\$GL_REPO_CREATE_BY_CLONE/ {
+a \
+
+a \
+# ------------------------------------------------------------------------------
+a \
+# set to 1, email alike pubkey, like baz@example.com.pub will map to baz.
+a \
+$GL_EMAIL_ALIKE_PUBKEY_MAPUSER = 1;
+            }' $RCFILE
+    fi
+fi
+
 #DEBHELPER#
 
 exit 0
