@@ -23,7 +23,10 @@ while [ $# -gt 0 ]; do
             target=$DEPLOY/$target
             mkdir -p "$target"
             echo >&2 "checkout to $target..."
-            git --work-tree="$target" reset --hard $1
+            ORIG_HEAD=$(git symbolic-ref HEAD)
+            git symbolic-ref HEAD $1
+            git --work-tree="$target" reset -q --hard
+            git symbolic-ref HEAD ${ORIG_HEAD}
         else
             echo >&2 "File '$LOCATION' not found in branch '${1#refs/heads/}'."
         fi
