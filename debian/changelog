@@ -1,3 +1,10 @@
+gitolite (1:2.3-ossxp-21) unstable; urgency=low
+
+  * Fix bug in post-update hooks: when update found in html-pub branch
+    current branch would reset --hard, and branch may be destroyed.
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Tue, 26 Jun 2012 17:47:08 +0800
+
 gitolite (1:2.3-ossxp-20) unstable; urgency=low
 
   * Update .gitolite.rc automatically.
