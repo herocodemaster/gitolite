@@ -1,0 +1,10 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] Remove BOM from header of config files
+
+If config files are in unicode format and have BOM in the header,
+script 'gl-compile-conf' will raise an error, and config files
+can not be compiled.
+
+This hack remove BOM from header of config files.
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
