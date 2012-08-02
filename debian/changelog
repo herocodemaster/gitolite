@@ -1,3 +1,11 @@
+gitolite (1:2.3-ossxp-22) unstable; urgency=low
+
+  * Remove BOM from header of config files. Or gitolite config file
+    with a BOM in header won't be compiled, and new config file won't
+    take into effect.
+
+ -- Jiang Xin <worldhello.net@gmail.com>  Thu, 02 Aug 2012 16:30:09 +0800
+
 gitolite (1:2.3-ossxp-21) unstable; urgency=low
 
   * Fix bug in post-update hooks: when update found in html-pub branch

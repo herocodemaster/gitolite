@@ -1,0 +1,36 @@
+From: Jiang Xin <worldhello.net@gmail.com>
+Subject: [PATCH] Remove BOM from header of config files
+
+If config files are in unicode format and have BOM in the header,
+script 'gl-compile-conf' will raise an error, and config files
+can not be compiled.
+
+This hack remove BOM from header of config files.
+
+Signed-off-by: Jiang Xin <worldhello.net@gmail.com>
+
+---
+ src/gl-compile-conf |    5 +++++
+ 1 个文件被修改，插入 5 行(+)
+
+diff --git a/src/gl-compile-conf b/src/gl-compile-conf
+index f497ae5..8ceb7d1 100755
+--- a/src/gl-compile-conf
++++ b/src/gl-compile-conf
+@@ -332,9 +332,14 @@ sub parse_conf_file
+ 
+     my @repos;
+     my $line;
++    my $bomb_checked = 0;
+     while (<$conf_fh>)
+     {
+         $line = cleanup_conf_line($_);
++        if ($bomb_checked eq 0) {
++            $line =~ s/^\xEF\xBB\xBF//;
++            $bomb_checked++;
++        }
+         # skip blank lines
+         next unless $line =~ /\S/;
+ 
+-- 
+tg: (f73e3d7..) t/remove-bomb-from-config (depends on: upstream)

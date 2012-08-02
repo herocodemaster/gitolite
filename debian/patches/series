@@ -14,5 +14,6 @@ t/post-receive-email.diff -p1
 t/post-update.diff -p1
 t/push_to_create.diff -p1
 t/pubkey_mapuser_hack.diff -p1
+t/remove-bomb-from-config.diff -p1
 t/repo_name_mapping.diff -p1
 t/wildrepo_detect.diff -p1
